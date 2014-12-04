@@ -1,7 +1,8 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('ProjectsController', ['$scope', '$location',
+.controller('ProjectController', ['$scope', '$location',
     function ($scope, $location) {
+        
     }
 ]);

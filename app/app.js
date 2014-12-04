@@ -25,9 +25,17 @@ angular.module('kissWebIdeApp', [
                 templateUrl: 'views/user/user.html',
                 controller: 'UserController'
             }).
-            when('/projects/:projectName?/:fileName?', {
+            when('/projects', {
                 templateUrl: 'views/projects/projects.html',
                 controller: 'ProjectsController'
+            }).
+            when('/projects/:projectName', {
+                templateUrl: 'views/project/project.html',
+                controller: 'ProjectController'
+            }).
+            when('/projects/:projectName/:fileName', {
+                templateUrl: 'views/file/file.html',
+                controller: 'FileController'
             }).
             otherwise({
                 redirectTo: '/home'
