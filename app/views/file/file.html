@@ -5,11 +5,13 @@
         </div>
         
         <div class="btn-group" role="group">
-          <button type="button" class="btn btn-default" data-ng-click="compile">Compile</button>
+          <button type="button" class="btn btn-default" data-ng-click="compile()">Compile</button>
         </div>
     </div>
 
     <div id="file_content"></div>
+    
+    <pre id="compiler_error">{{output}}</pre>
 </div>
 
 <div class="modal fade" id="discardChangesDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

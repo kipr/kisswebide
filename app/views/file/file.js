@@ -9,7 +9,9 @@ angular.module('kissWebIdeControllers')
         
         var fileContentElement = document.getElementById('file_content');
         var rect = fileContentElement.getBoundingClientRect();
-        fileContentElement.style.height = (window.innerHeight - rect.top - 20) + 'px';
+        fileContentElement.style.height = ((window.innerHeight - rect.top - 20)*3/4) + 'px';
+        var compileErrorElement = document.getElementById('compiler_error');
+        compileErrorElement.style.height = ((window.innerHeight - rect.top - 20)/4) + 'px';
         
         var editor = ace.edit('file_content');
         editor.setTheme('ace/theme/crimson_editor');
@@ -28,6 +30,27 @@ angular.module('kissWebIdeControllers')
         $scope.save = function() {
             target.fileResource.content = editor.getValue();
             $scope.documentChanged = false;
+        }
+        
+        $scope.output = '';
+        $scope.compile = function() {
+            $scope.save();
+            
+            $scope.output = 'Compiling...';
+            
+            $scope.target.projectResource.compile($scope.target.fileResource.path).then(
+                function(response) {
+                    
+                    if(response.output.length == 0) {
+                        $scope.output = 'Compilation Successful';
+                    } else {
+                        $scope.output = 'Compiler Output:';
+                        
+                        for(var i = 0; i < response.output.length; ++i) {
+                            $scope.output += '\n' + response.output[i];
+                        }
+                    }
+                });
         }
         
         // there is a better way to do this

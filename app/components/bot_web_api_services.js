@@ -28,7 +28,8 @@ angular.module('BotWebApiServices', [])
                             });
                         });
                     }
-                }
+                },
+                'path': { get: function() { return jsonData.path; }, enumerable: true }
             });
         }
         
@@ -111,6 +112,26 @@ angular.module('BotWebApiServices', [])
                     enumerable: true,
                     value: function() {
                         return files.getResource(jsonData.links.files.href);
+                    },
+                },
+                'compile' : {
+                    enumerable: true,
+                    value: function(filePath) {
+                        var request = { sourceFile: filePath }
+                        
+                        return $q(function(resolve, reject) {
+                            $http.put(jsonData.links.binary.href, request)
+                            
+                            .success(function(data, status, headers, config) {
+                                resolve(data);
+                            })
+                            .error(function(data, status, headers, config) {
+                                reject({
+                                    status: status,
+                                    data: data
+                                });
+                            });
+                        });
                     }
                 }
             });

@@ -54,6 +54,7 @@ angular.module('kissWebIdeServices', [])
             },
             
             // Projects resource properties
+            'projectResource': { get: function() { return projectResource; }, enumerable: true },
             'projectNames': { get: function() { return projectNames; }, enumerable: true },
             'projectName': {
                 enumerable: true,
@@ -69,8 +70,8 @@ angular.module('kissWebIdeServices', [])
                         projectName = value;
                         
                         projectsResource.getProject(projectName).then(
-                            function(projectResource) {
-                                projectResource = projectResource;
+                            function(projectResource_) {
+                                projectResource = projectResource_;
                                 
                                 projectResource.getFiles().then(
                                     function(filesResource_) {
