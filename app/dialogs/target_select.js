@@ -32,7 +32,7 @@ angular.module('kissWebIdeApp').directive('targetSelectDialog', ['target',
                     
                     $scope.target.logIn(url, $scope.targetUsername, $scope.targetPassword).then(
                         function(targetInstance) {
-                            $('#' + $scope.dialogId).modal('toggle')
+                            $('#' + $scope.dialogId).modal('toggle');
                         },
                         function(reason) {
                             if(reason.error === 'Unauthorized') {
