@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+body {
+    cursor: default;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Nav
+ *********/
+
+nav img {
+    height: 30px;
+    margin: -10px 5px -10px 0;
+    float: left;
+}
+
+nav .delimiter {
+    margin: 15px 0 15px 0;
+}
+
+nav .title {
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+/* Content
+ *********/
+
+#file_content {
+    height: 1024px;
+    width: 100%;
+}
