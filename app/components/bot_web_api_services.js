@@ -11,7 +11,7 @@ angular.module('BotWebApiServices', [])
                 'content' : {
                     enumerable: true,
                     get: function() { return jsonData.content; },
-                    write: function(value) {
+                    set: function(value) {
                         var request = { content: Base64.encode(value) }
                         
                         return $q(function(resolve, reject) {
