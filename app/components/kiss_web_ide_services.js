@@ -16,6 +16,8 @@ angular.module('kissWebIdeServices', [])
         // Selected project resource
         var projectResource = undefined;
         var projectName = undefined;
+        var projectLanguage = undefined;
+        var projectType = undefined;
     
         // Projects resource
         var projectsResource = undefined;
@@ -56,6 +58,8 @@ angular.module('kissWebIdeServices', [])
             // Projects resource properties
             'projectResource': { get: function() { return projectResource; }, enumerable: true },
             'projectNames': { get: function() { return projectNames; }, enumerable: true },
+            'projectType': { get: function() { return projectType; }, enumerable: true },
+            'projectLanguage': { get: function() { return projectLanguage; }, enumerable: true },
             'projectName': {
                 enumerable: true,
                 get: function() { return projectName; },
@@ -73,6 +77,8 @@ angular.module('kissWebIdeServices', [])
                             function(projectResource_) {
                                 projectResource = projectResource_;
                                 
+                                projectType = projectResource.type;
+                                projectLanguage = projectResource.language;
                                 projectResource.getFiles().then(
                                     function(filesResource_) {
                                         filesResource = filesResource_;

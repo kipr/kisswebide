@@ -107,7 +107,8 @@ angular.module('BotWebApiServices', [])
         function ProjectResource(jsonData) {
             
             Object.defineProperties(this, { 
-                'projectNames' : { get: function() { return projectNames; }, enumerable: true },
+                'type' : { get: function() { return jsonData.type; }, enumerable: true },
+                'language' : { get: function() { return jsonData.language; }, enumerable: true },
                 'getFiles' : {
                     enumerable: true,
                     value: function() {

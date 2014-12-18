@@ -1,17 +1,39 @@
 <div class="container">
     <div class="row">
         <div class="page-header">
-            <h2>{{target.projectName}}</h2>
+            <h2>{{target.projectName}}<small data-ng-hide="!target.projectLanguage"> [ {{target.projectLanguage}} ]</small></h2>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Projects Files</h3>
+                    <h3 class="panel-title">Source Files</h3>
                 </div>
                 <div class="list-group">
-                    <a data-ng-repeat="fileName in target.fileNames" data-ng-click="selectItem(fileName)" class="list-group-item" data-ng-class="{active: target.fileName && target.fileName == fileName}">{{fileName}}</a>
+                    <a data-ng-repeat="fileName in target.fileNames | sourceFiles" data-ng-click="selectItem(fileName)" class="list-group-item" data-ng-class="{active: target.fileName && target.fileName == fileName}">{{fileName}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Header Files</h3>
+                </div>
+                <div class="list-group">
+                    <a data-ng-repeat="fileName in target.fileNames | headerFiles" data-ng-click="selectItem(fileName)" class="list-group-item" data-ng-class="{active: target.fileName && target.fileName == fileName}">{{fileName}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">User Data Files</h3>
+                </div>
+                <div class="list-group">
+                    <a data-ng-repeat="fileName in target.fileNames | userDataFiles" data-ng-click="selectItem(fileName)" class="list-group-item" data-ng-class="{active: target.fileName && target.fileName == fileName}">{{fileName}}</a>
                 </div>
             </div>
         </div>
