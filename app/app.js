@@ -65,21 +65,5 @@ angular.module('kissWebIdeControllers', [])
                 $location.path('/');
             }
         });
-        
-        $scope.$watch('target.projectName', function(newValue, oldValue) {
-            if(newValue) {
-                $location.path('/projects/' + newValue);
-            } else {
-                $location.path('/');
-            }
-        });
-        
-        $scope.$watch('target.fileName', function(newValue, oldValue) {
-            if(newValue) {
-                $location.path('/projects/' + target.projectName + '/' + newValue);
-            } else {
-                $location.path('/');
-            }
-        });
     }
 ]);

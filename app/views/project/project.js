@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('ProjectController', ['$scope', 'target',
-    function ($scope, target) {
+.controller('ProjectController', ['$scope', '$location', 'target',
+    function ($scope, $location, target) {
         $scope.target = target;
         
         $scope.selectItem = function(fileName) {
@@ -11,6 +11,19 @@ angular.module('kissWebIdeControllers')
             } else {
                 $scope.target.fileName = fileName;
             }
+        }
+        
+        $scope.createItem = function() {
+        }
+        
+        $scope.openItem = function(fileName) {
+            if(fileName != $scope.target.fileName) {
+                $scope.selectItem(fileName);
+            }
+            $location.path('/projects/' + $scope.target.projectName + '/' + fileName);
+        }
+        
+        $scope.deleteItem = function(fileName) {
         }
     }
 ])
