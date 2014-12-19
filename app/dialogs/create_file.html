@@ -1,0 +1,63 @@
+<div class="modal fade" data-ng-attr-id="{{dialogId}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create a File</h4>
+            </div>
+            
+            <div class="modal-body">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label for="inputFileName">File name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="inputFileName"
+                                   placeholder="New File"
+                                   data-ng-model="fileName">
+                        </div>
+                        <div class="input-group" data-ng-show="extensions">
+                            <label for="fileExtension">Extension</label>
+                            <br>
+                            <button class="btn btn-default dropdown-toggle"
+                                    type="button"
+                                    id="fileExtension"
+                                    data-toggle="dropdown">
+                                {{extension}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="fileExtension">
+                                <li data-ng-repeat="extension in extensions" role="presentation">
+                                    <a role="menuitem"
+                                       tabindex="-1"
+                                       data-ng-click="selectExtension(extension)">
+                                        {{extension}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <label for="newFilePath">Remote file path</label>
+                <p id="newFilePath">{{newFilePath}}\{{fileName}}<span data-ng-show="fileName">{{extension}}</span></p>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-default"
+                        data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button"
+                        class="btn btn-primary"
+                        data-dismiss="modal"
+                        data-ng-click="create()"
+                        data-ng-disabled="!fileName">
+                    Create
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

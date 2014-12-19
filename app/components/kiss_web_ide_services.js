@@ -35,6 +35,7 @@ angular.module('kissWebIdeServices', [])
         return Object.create(Object.prototype, {
             
             // Files resource of the selected project properties
+            'filesResource': { get: function() { return filesResource; }, enumerable: true },
             'fileResource': { get: function() { return fileResource; }, enumerable: true },
             'fileNames': { get: function() { return fileNames; }, enumerable: true },
             'fileName': {

@@ -1,64 +1,121 @@
 <div class="container">
     <div class="row">
         <div class="page-header">
-            <h2>{{target.projectName}}<small data-ng-hide="!target.projectLanguage"> [ {{target.projectLanguage}} ]</small></h2>
+            <h2>{{target.projectName}}
+                <small data-ng-hide="!target.projectLanguage">[ {{target.projectLanguage}} ]</small>
+            </h2>
         </div>
     </div>
+    
     <div class="row">
+        
+        <!-- Source Files Panel -->
         <div class="col-xs-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="btn-group-xs pull-right">
-                        <button type="button" class="btn btn-default" data-ng-click="createItem()"><span class="glyphicon glyphicon-file"></span></button>
+                        <button type="button"
+                                class="btn btn-default"
+                                data-toggle="modal"
+                                data-ng-attr-data-target="{{ '#' + createSourceFileDialogId}}">
+                            <span class="glyphicon glyphicon-file"></span>
+                        </button>
                     </div>
                     <h3 class="panel-title">Source Files</h3>
                 </div>
+                
                 <div class="list-group">
-                    <a data-ng-repeat="fileName in target.fileNames | sourceFiles" data-ng-click="selectItem(fileName)" class="list-group-item" data-ng-class="{active: target.fileName && target.fileName == fileName}">
+                    <a data-ng-repeat="fileName in target.fileNames | sourceFiles"
+                       data-ng-click="selectItem(fileName)"
+                       class="list-group-item"
+                       data-ng-class="{active: target.fileName && target.fileName == fileName}">
                         {{fileName}}
                         <span class="btn-group-xs pull-right">
-                            <button type="button" class="btn btn-default" data-ng-click="openItem(fileName)"><span class="glyphicon glyphicon-folder-open"></span></button>
-                            <button type="button" class="btn btn-default" data-ng-click="deleteItem(fileName)"><span class="glyphicon glyphicon-trash"></span></button>
+                            <button type="button"
+                                    class="btn btn-default"
+                                    data-ng-click="openItem(fileName)">
+                                <span class="glyphicon glyphicon-folder-open"></span>
+                            </button>
+                            <button type="button"
+                                    class="btn btn-default"
+                                    data-ng-click="deleteItem(fileName)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </span>
                     </a>
                 </div>
             </div>
         </div>
+    
+        <!-- Header Files Panel -->
         <div class="col-xs-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="btn-group-xs pull-right">
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-file"></span></button>
+                        <button type="button"
+                                class="btn btn-default"
+                                data-toggle="modal"
+                                data-ng-attr-data-target="{{ '#' + createHeaderFileDialogId}}">
+                            <span class="glyphicon glyphicon-file"></span>
+                        </button>
                     </div>
                     <h3 class="panel-title">Header Files</h3>
                 </div>
+                
                 <div class="list-group">
-                    <a data-ng-repeat="fileName in target.fileNames | headerFiles" data-ng-click="selectItem(fileName)" class="list-group-item" data-ng-class="{active: target.fileName && target.fileName == fileName}">
+                    <a data-ng-repeat="fileName in target.fileNames | headerFiles"
+                       data-ng-click="selectItem(fileName)"
+                       class="list-group-item"
+                       data-ng-class="{active: target.fileName && target.fileName == fileName}">
                         {{fileName}}
                         <span class="btn-group-xs pull-right">
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-open"></span></button>
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+                            <button type="button"
+                                    class="btn btn-default">
+                                <span class="glyphicon glyphicon-folder-open"></span>
+                            </button>
+                            <button type="button"
+                                    class="btn btn-default">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
+    
     <div class="row">
+    
+        <!-- User Data Files Panel -->
         <div class="col-xs-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="btn-group-xs pull-right">
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-file"></span></button>
+                        <button type="button"
+                                class="btn btn-default"
+                                data-toggle="modal"
+                                data-ng-attr-data-target="{{ '#' + createUserDataFileDialogId}}">
+                            <span class="glyphicon glyphicon-file"></span>
+                        </button>
                     </div>
                     <h3 class="panel-title">User Data Files</h3>
                 </div>
+                
                 <div class="list-group">
-                    <a data-ng-repeat="fileName in target.fileNames | userDataFiles" data-ng-click="selectItem(fileName)" class="list-group-item" data-ng-class="{active: target.fileName && target.fileName == fileName}">
+                    <a data-ng-repeat="fileName in target.fileNames | userDataFiles"
+                       data-ng-click="selectItem(fileName)"
+                       class="list-group-item"
+                       data-ng-class="{active: target.fileName && target.fileName == fileName}">
                         {{fileName}}
                         <span class="btn-group-xs pull-right">
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-open"></span></button>
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+                            <button type="button"
+                                    class="btn btn-default">
+                                <span class="glyphicon glyphicon-folder-open"></span>
+                            </button>
+                            <button type="button"
+                                    class="btn btn-default">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </span>
                     </a>
                 </div>
@@ -66,3 +123,15 @@
         </div>
     </div>
 </div>
+
+<create-file-dialog dialog-id="createSourceFileDialogId"
+                    folder-resource="target.filesResource"
+                    extensions="sourceFileExtensions">
+</create-file-dialog>
+<create-file-dialog dialog-id="createHeaderFileDialogId"
+                    folder-resource="target.filesResource"
+                    extensions="headerFileExtensions">
+</create-file-dialog>
+<create-file-dialog dialog-id="createUserDataFileDialogId"
+                    folder-resource="target.filesResource">
+</create-file-dialog>

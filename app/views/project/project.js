@@ -4,6 +4,11 @@ angular.module('kissWebIdeControllers')
 .controller('ProjectController', ['$scope', '$location', 'target',
     function ($scope, $location, target) {
         $scope.target = target;
+        $scope.createSourceFileDialogId = 'ProjectController_createSourceFileDialogId';
+        $scope.createHeaderFileDialogId = 'ProjectController_createHeaderFileDialogId';
+        $scope.createUserDataFileDialogId = 'ProjectController_createUserDataFileDialogId';
+        $scope.sourceFileExtensions = ['.c'];
+        $scope.headerFileExtensions = ['.h'];
         
         $scope.selectItem = function(fileName) {
             if(fileName == $scope.target.fileName) {
@@ -11,9 +16,6 @@ angular.module('kissWebIdeControllers')
             } else {
                 $scope.target.fileName = fileName;
             }
-        }
-        
-        $scope.createItem = function() {
         }
         
         $scope.openItem = function(fileName) {

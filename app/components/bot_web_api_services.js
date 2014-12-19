@@ -76,7 +76,34 @@ angular.module('BotWebApiServices', [])
                         
                         return $q(function(resolve, reject) { reject(); });
                     }
-                }
+                },
+                'createFile' : {
+                    enumerable: true,
+                    value: function(name, isDirectory, content) {
+                        var request = { name: name, is_dir: isDirectory };
+                        if(!isDirectory && content) {
+                            request.content = Base64.encode(content);
+                        }
+                        
+                        return $q(function(resolve, reject) {
+                            $http.post(jsonData.links.self.href, request)
+                            
+                            .success(function(data, status, headers, config) {
+                                console.log(data);
+                                console.log(status);
+                                console.log(headers('Location'));
+                                resolve();
+                            })
+                            .error(function(data, status, headers, config) {
+                                reject({
+                                    status: status,
+                                    data: data
+                                });
+                            });
+                        });
+                    }
+                },
+                'path': { get: function() { return jsonData.path; }, enumerable: true }
             });
         }
         
