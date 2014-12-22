@@ -9,15 +9,31 @@
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="btn-group-xs pull-right">
-                        <button type="button" class="btn btn-default" data-ng-click="createItem()"><span class="glyphicon glyphicon-file"></span></button>
+                        <button type="button"
+                                class="btn btn-default"
+                                data-ng-click="createItem()">
+                            <span class="glyphicon glyphicon-file"></span>
+                        </button>
                     </div>
                     <h3 class="panel-title">Projects</h3>
                 </div>
                 <div class="list-group">
-                    <a data-ng-repeat="projectName in projectNames" data-ng-click="selectItem(projectName)" class="list-group-item" data-ng-class="{active: target.projectName && target.projectName == projectName}">{{projectName}}
+                    <a data-ng-repeat="projectName in projectNames"
+                       data-ng-click="selectItem(projectName)"
+                       class="list-group-item"
+                       data-ng-class="{active: target.projectName && target.projectName == projectName}">
+                       {{projectName}}
                         <span class="btn-group-xs pull-right">
-                            <button type="button" class="btn btn-default" data-ng-click="openItem(projectName)"><span class="glyphicon glyphicon-folder-open"></span></button>
-                            <button type="button" class="btn btn-default" data-ng-click="deleteItem(projectName)"><span class="glyphicon glyphicon-trash"></span></button>
+                            <button type="button"
+                                    class="btn btn-default"
+                                    data-ng-click="openItem(projectName)">
+                                <span class="glyphicon glyphicon-folder-open"></span>
+                            </button>
+                            <button type="button"
+                                    class="btn btn-default"
+                                    data-ng-click="deleteItem(projectName)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </span>
                     </a>
                 </div>
