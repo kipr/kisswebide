@@ -77,6 +77,10 @@ angular.module('kissWebIdeServices', [])
                 enumerable: true,
                 get: function() { return fileName; },
                 set: function(value) {
+                    if(value === fileName) {
+                        return;
+                    }
+                    
                     if(value) {
                         // check if it is a valid value
                         rootResource.getProjects()
@@ -99,6 +103,8 @@ angular.module('kissWebIdeServices', [])
                     } else {
                         fileName = value;
                     }
+                    
+                    $route.reload();
                 }
             },
             
@@ -107,6 +113,10 @@ angular.module('kissWebIdeServices', [])
                 enumerable: true,
                 get: function() { return projectName; },
                 set: function(value) {
+                    if(value === projectName) {
+                        return;
+                    }
+                    
                     fileName = undefined;
                     
                     if(value) {
@@ -125,6 +135,8 @@ angular.module('kissWebIdeServices', [])
                     } else {
                         projectName = value;
                     }
+                    
+                    $route.reload();
                 },
             },
             
