@@ -44,41 +44,106 @@
         <nav class="navbar navbar-default" role="navigation" data-ng-controller="HeaderController">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse">
+                    <button type="button"
+                            class="navbar-toggle collapsed"
+                            data-toggle="collapse"
+                            data-target="#main-navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand title" href="#/home">KISS Web IDE <img src="resources/botguy-logo.png" alt="Botguy"></a>
+                    <a class="navbar-brand title" data-ng-href="#/home">
+                        KISS Web IDE <img src="resources/botguy-logo.png" alt="Botguy">
+                    </a>
                 </div>
                 
                 <div class="collapse navbar-collapse" id="main-navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li data-ng-hide="target.loggedIn" data-ng-class="{active: page() == 'target'}">
-                            <a data-toggle="modal" data-ng-attr-data-target="{{ '#' + targetSelectDialogId}}">Log in to Target...</a>
+                        
+                        <!-- Login / target item -->
+                        <li data-ng-hide="target.loggedIn" data-ng-class="{active: $location.path() == '\target'}">
+                            <a data-toggle="modal"
+                               data-ng-attr-data-target="{{ '#' + targetSelectDialogId}}">
+                                Log in to Target...
+                            </a>
                         </li>
-                        <li class="dropdown" data-ng-show="target.loggedIn" data-ng-class="{active: page() == 'target'}">
-                            <a href="#/target" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{target.url}} <span class="caret"></span></a>
+                        <li class="dropdown"
+                            data-ng-show="target.loggedIn"
+                            data-ng-class="{active: $location.path() == '\target'}">
+                            <a data-ng-href="#/target"
+                               class="dropdown-toggle"
+                               data-toggle="dropdown"
+                               role="button">
+                                {{target.name}} <span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#/home" data-ng-click="target.logOut()">Log Out</a></li>
-                                <li><a data-toggle="modal" data-ng-attr-data-target="{{ '#' + targetSelectDialogId}}">Change Target</a></li>
+                                <li><a data-ng-href="#/home" data-ng-click="target.logOut()">Log Out</a></li>
+                                <li><a data-toggle="modal" data-ng-attr-data-target="{{ '#' + targetSelectDialogId}}">
+                                    Change Target
+                                </a></li>
                             </ul>
                         </li>
-                        <li data-ng-show="target.loggedIn" data-ng-class="{active: page() == 'user'}"><a  href="#/user">{{target.username}}</a></li>
-                        <li data-ng-show="target.loggedIn" data-ng-class="{active: page() == 'projects' && !$routeParams.projectName}"><a  href="#/projects">Projects</a></li>
-                        <li data-ng-show="!target.projectName && target.loggedIn" data-ng-class="{active: $routeParams.projectName}" data-toggle="modal" data-ng-attr-data-target="{{ '#' + wsProjSelectDialogId}}"><a  href="#/projects">Select a Project...</a></li>
-                        <li class="dropdown" data-ng-show="target.projectName" data-ng-class="{active: $routeParams.projectName && !$routeParams.fileName}">
-                            <a data-ng-href="#/projects/{{target.projectName}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{target.projectName}} <span class="caret"></span></a>
+                        
+                        <!-- User item -->
+                        <li data-ng-show="target.loggedIn" data-ng-class="{active: $location.path() == '/user'}">
+                            <a data-ng-href="#/user">{{target.username}}</a>
+                        </li>
+                        
+                        <!-- Projects item -->
+                        <li data-ng-show="target.loggedIn"
+                            data-ng-class="{active: $location.path() == '/projects'}">
+                            <a  href="#/projects">Projects</a>
+                        
+                        </li>
+                        
+                        <!-- Project item -->
+                        <li data-ng-show="!target.projectName && target.loggedIn"
+                            data-ng-class="{active: $routeParams.projectName}"
+                            data-toggle="modal"
+                            data-ng-attr-data-target="{{ '#' + wsProjSelectDialogId}}">
+                            <a>Select a Project...</a>
+                        </li>
+                        <li class="dropdown"
+                            data-ng-show="target.projectName"
+                            data-ng-class="{active: $location.path() == '/project'}">
+                            <a data-ng-href="#/project"
+                               class="dropdown-toggle"
+                               data-toggle="dropdown"
+                               role="button">
+                                {{target.projectName}} <span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a data-toggle="modal" data-ng-attr-data-target="{{ '#' + wsProjSelectDialogId}}">Change Project</a></li>
+                                <li><a data-toggle="modal"
+                                       data-ng-attr-data-target="{{ '#' + wsProjSelectDialogId}}">
+                                        Change Project
+                                    </a>
+                                </li>
                             </ul>
                         </li>
-                        <li data-ng-show="!target.fileName && target.projectName && target.loggedIn" data-ng-class="{active: $routeParams.fileName}"><a data-ng-href="#/projects/{{target.projectName}}" data-toggle="modal" data-ng-attr-data-target="{{ '#' + fileSelectDialogId}}">Select a File...</a></li>
-                        <li class="dropdown" data-ng-show="target.fileName" data-ng-class="{active: $routeParams.fileName}">
-                            <a data-ng-href="#/projects/{{target.projectName}}/{{target.fileName}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{target.fileName}} <span class="caret"></span></a>
+                        
+                        <!-- Project item -->
+                        <li data-ng-show="!target.fileName && target.projectName && target.loggedIn"
+                            data-ng-class="{active: $routeParams.fileName}">
+                            <a data-toggle="modal"
+                               data-ng-attr-data-target="{{ '#' + fileSelectDialogId}}">
+                                Select a File...
+                            </a>
+                        </li>
+                        <li class="dropdown"
+                            data-ng-show="target.fileName"
+                            data-ng-class="{active: $location.path() == '/file'}">
+                            <a data-ng-href="#/file"
+                               class="dropdown-toggle"
+                               data-toggle="dropdown"
+                               role="button">
+                                {{target.fileName}} <span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a data-toggle="modal" data-ng-attr-data-target="{{ '#' + fileSelectDialogId}}">Change File</a></li>
+                                <li><a data-toggle="modal"
+                                       data-ng-attr-data-target="{{ '#' + fileSelectDialogId}}">
+                                    Change File
+                                </a></li>
                             </ul>
                         </li>
                     </ul>
@@ -86,8 +151,8 @@
             </div>
             
             <target-select-dialog dialog-id="targetSelectDialogId"></target-select-dialog>
-            <ws-proj-select-dialog dialog-id="wsProjSelectDialogId" project-names="target.projectNames" selected="target.projectName"></ws-proj-select-dialog>
-            <file-select-dialog dialog-id="fileSelectDialogId" file-names="target.fileNames" selected="target.fileName"></file-select-dialog>
+            <ws-proj-select-dialog dialog-id="wsProjSelectDialogId"></ws-proj-select-dialog>
+            <file-select-dialog dialog-id="fileSelectDialogId"></file-select-dialog>
         </nav>
             
         <div id="content_container" data-ng-view></div>

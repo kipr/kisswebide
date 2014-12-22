@@ -37,7 +37,7 @@ angular.module('BotWebApiServices', [])
         return {
             getResource: function(url) {
                 return $q(function(resolve, reject) {
-                    $http.get(url, { cache: true})
+                    $http.get(url)
                     .success(function(data, status, headers, config) {
                         resolve(new FileResource(data));
                     })
@@ -111,7 +111,7 @@ angular.module('BotWebApiServices', [])
         return {
             getResource: function(url) {
                 return $q(function(resolve, reject) {
-                    $http.get(url, { cache: true})
+                    $http.get(url)
                     .success(function(data, status, headers, config) {
                         resolve(new FilesResource(data));
                     })

@@ -11,7 +11,16 @@ angular.module('kissWebIdeApp').directive('createFileDialog',
                 extensions: '=?'
             },
             link: function($scope, element, attributes) {
-                $scope.newFilePath = $scope.folderResource.path;
+                $scope.folderResource.then(function(folderResource) {
+                    $scope.newFilePath = folderResource.path;
+                    
+                    $scope.create = function() {
+                        $scope.folderResource.createFile(
+                            $scope.fileName + ($scope.extension ? $scope.extension : ''),
+                            false
+                        );
+                    }
+                });
                 
                 if($scope.extensions) {
                     if($scope.extensions.constructor !== Array || $scope.extensions.length == 0) {
@@ -19,13 +28,6 @@ angular.module('kissWebIdeApp').directive('createFileDialog',
                     } else {
                         $scope.extension = $scope.extensions[0];
                     }
-                }
-                
-                $scope.create = function() {
-                    $scope.folderResource.createFile(
-                        $scope.fileName + ($scope.extension ? $scope.extension : ''),
-                        false
-                    );
                 }
                 
                 $scope.selectExtension = function(extension) {

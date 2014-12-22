@@ -1,14 +1,33 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('ProjectController', ['$scope', '$location', 'target',
-    function ($scope, $location, target) {
+.controller('ProjectController', ['$scope', '$q', '$location', 'target',
+    function ($scope, $q, $location, target) {
         $scope.target = target;
         $scope.createSourceFileDialogId = 'ProjectController_createSourceFileDialogId';
         $scope.createHeaderFileDialogId = 'ProjectController_createHeaderFileDialogId';
         $scope.createUserDataFileDialogId = 'ProjectController_createUserDataFileDialogId';
         $scope.sourceFileExtensions = ['.c'];
         $scope.headerFileExtensions = ['.h'];
+        
+        $scope.projectFolderResource = $q(function(resolve, reject) {
+            target.rootResource.getProjects()
+                .then(function(projectsResource) {
+                    return projectsResource.getProject(target.projectName);
+                })
+                .then(function(projectResource) {
+                    $scope.projectLanguage = projectResource.language;
+                    return projectResource.getFiles();
+                })
+                .then(function(filesResource) {
+                    resolve(filesResource);
+                    $scope.fileNames = filesResource.fileNames;
+                })
+                .catch(function(error) {
+                    reject({});
+                    alert('Could not open ' + target.projectName);
+                });
+        });
         
         $scope.selectItem = function(fileName) {
             if(fileName == $scope.target.fileName) {
@@ -22,7 +41,7 @@ angular.module('kissWebIdeControllers')
             if(fileName != $scope.target.fileName) {
                 $scope.selectItem(fileName);
             }
-            $location.path('/projects/' + $scope.target.projectName + '/' + fileName);
+            $location.path('/file');
         }
         
         $scope.deleteItem = function(fileName) {

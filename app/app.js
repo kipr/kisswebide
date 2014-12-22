@@ -15,27 +15,33 @@ angular.module('kissWebIdeApp', [
             }).
             when('/home', {
                 templateUrl: 'views/home/home.html',
-                controller: 'HomeController'
+                controller: 'HomeController',
+                targetLoginRequired: false
             }).
             when('/target', {
                 templateUrl: 'views/target/target.html',
-                controller: 'TargetController'
+                controller: 'TargetController',
+                targetLoginRequired: true
             }).
             when('/user', {
                 templateUrl: 'views/user/user.html',
-                controller: 'UserController'
+                controller: 'UserController',
+                targetLoginRequired: true
             }).
             when('/projects', {
                 templateUrl: 'views/projects/projects.html',
-                controller: 'ProjectsController'
+                controller: 'ProjectsController',
+                targetLoginRequired: true
             }).
-            when('/projects/:projectName', {
+            when('/project', {
                 templateUrl: 'views/project/project.html',
-                controller: 'ProjectController'
+                controller: 'ProjectController',
+                targetLoginRequired: true
             }).
-            when('/projects/:projectName/:fileName', {
+            when('/file', {
                 templateUrl: 'views/file/file.html',
-                controller: 'FileController'
+                controller: 'FileController',
+                targetLoginRequired: true
             }).
             otherwise({
                 redirectTo: '/home'
@@ -45,14 +51,10 @@ angular.module('kissWebIdeApp', [
 
 angular.module('kissWebIdeControllers', [])
 
-.controller('HeaderController', ['$scope', '$location', '$routeParams', 'target', 'botWebApi',
-    function ($scope, $location, $routeParams, target, botWebApi) {
-        $scope.$routeParams = $routeParams;
+.controller('HeaderController', ['$scope', '$location', 'target', 'botWebApi',
+    function ($scope, $location, target, botWebApi) {
+        $scope.$location = $location;
         $scope.target = target;
-        
-        $scope.page =  function() {
-            return $location.path().split('/')[1];
-        }
         
         $scope.targetSelectDialogId = 'HeaderController_targetSelectDialogId';
         $scope.wsProjSelectDialogId = 'HeaderController_wsProjSelectDialogId';
@@ -60,9 +62,10 @@ angular.module('kissWebIdeControllers', [])
         
         $scope.$watch('target.loggedIn', function(newValue, oldValue) {
             if(newValue) {
-                $location.path('/target');
+                //$location.path('/target');
+                //$location.search('user', 'test');
             } else {
-                $location.path('/');
+                //$location.path('/');
             }
         });
     }

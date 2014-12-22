@@ -10,15 +10,14 @@ angular.module('kissWebIdeApp').directive('targetSelectDialog', ['target',
                 dialogId: '='
             },
             link: function($scope, element, attributes) {
-                $scope.targetUsername = 'user';
+                $scope.target = target;
+                $scope.target.username = 'User';
                 $scope.targetPassword = 'KISS';
                 $scope.targetIp = '192.168.123.192';
                 $scope.targetLocation = 'target_is_server';
                 
-                $scope.target = target;
-                
                 $scope.logIn = function() {
-                    if(!$scope.targetUsername) {
+                    if(!$scope.target.username) {
                         alert('Please enter a valid username');
                         return;
                     }
@@ -30,7 +29,7 @@ angular.module('kissWebIdeApp').directive('targetSelectDialog', ['target',
                         url = 'http://' + $scope.targetIp + '/api';
                     }
                     
-                    $scope.target.logIn(url, $scope.targetUsername, $scope.targetPassword).then(
+                    $scope.target.logIn(url, $scope.targetPassword).then(
                         function(targetInstance) {
                             $('#' + $scope.dialogId).modal('toggle');
                         },

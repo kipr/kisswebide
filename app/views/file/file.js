@@ -3,7 +3,34 @@
 angular.module('kissWebIdeControllers')
 .controller('FileController', ['$rootScope', '$scope', '$location', 'target',
     function ($rootScope, $scope, $location, target) {
-        $scope.target = target;
+        var fileResource = undefined;
+        var projectResource = undefined;
+        
+        target.rootResource.getProjects()
+            .then(function(projectsResource) {
+                return projectsResource.getProject(target.projectName);
+            })
+            .then(function(projectResource_) {
+                projectResource = projectResource_;
+                return projectResource.getFiles();
+            })
+            .then(function(filesResource) {
+                return filesResource.getFile(target.fileName);
+            })
+            .then(function(fileResource_) {
+                fileResource = fileResource_;
+                
+                var content = '';
+                if(fileResource.content) {
+                    content = Base64.decode(fileResource.content);
+                }
+                
+                editor.setValue(content, -1);
+                $scope.documentChanged = false;
+            })
+            .catch(function(error) {
+                alert('Could not open ' + target.fileName);
+            });
         
         $scope.documentChanged = false;
         
@@ -20,15 +47,8 @@ angular.module('kissWebIdeControllers')
             $scope.documentChanged = true;
         });
         
-        $scope.$watch('target.fileResource', function(newValue, oldValue) {
-            if(newValue) {
-                editor.setValue(Base64.decode(target.fileResource.content), -1);
-                $scope.documentChanged = false;
-            }
-        });
-        
         $scope.save = function() {
-            target.fileResource.content = editor.getValue();
+            fileResource.content = editor.getValue();
             $scope.documentChanged = false;
         }
         
@@ -38,7 +58,7 @@ angular.module('kissWebIdeControllers')
             
             $scope.output = 'Compiling...';
             
-            $scope.target.projectResource.compile($scope.target.fileResource.path).then(
+            projectResource.compile(fileResource.path).then(
                 function(response) {
                     
                     if(response.output.length == 0) {

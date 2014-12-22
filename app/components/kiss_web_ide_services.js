@@ -2,113 +2,150 @@
 
 angular.module('kissWebIdeServices', [])
 
-.factory('target', ['$q', 'botWebApi', 
-    function($q, botWebApi) {
+.factory('target', ['$rootScope', '$q', '$location', '$route', 'botWebApi', 
+    function($rootScope, $q, $location, $route, botWebApi) {
         
-        // Selected file resource of the selected project
-        var fileResource = undefined;
+        // Selected file name of the selected project
         var fileName = undefined;
         
-        // Files resource of the selected project
-        var filesResource = undefined;
-        var fileNames = undefined;
-        
-        // Selected project resource
-        var projectResource = undefined;
+        // Selected project name
         var projectName = undefined;
-        var projectLanguage = undefined;
-        var projectType = undefined;
-    
-        // Projects resource
-        var projectsResource = undefined;
-        var projectNames = undefined;
         
         // Login / root resource
         var rootResource = undefined;
         var loggedIn = false;
         var loggingIn = false;
         var url = undefined;
+        var name = undefined;
         var username = undefined;
         var password = undefined;
+        
+        var logOut = function() {
+            fileName = undefined;
+            projectName = undefined;
+            
+            rootResource = undefined;
+            loggedIn = false;
+            loggingIn = false;
+            url = undefined;
+            password = undefined;
+        }
+        
+        $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
+            var searchObj = $location.search();
+            
+            if(!('user' in searchObj) && username) {
+                // restore the query string
+                $location.search('user', username);
+            } else if(searchObj.user !== username) {
+                // user changed by somebody external --> log out but update the name
+                if(loggedIn) {
+                    logOut();
+                }
+                username = searchObj.user;
+            }
+            
+            if(!('target' in searchObj) && name) {
+                // restore the query string
+                $location.search('target', name);
+            } else if(searchObj.target !== name) {
+                // target changed by somebody external --> log out but update the target
+                if(loggedIn) {
+                    logOut();
+                }
+                name = searchObj.target;
+            }
+        });
+        
+        // Redirect if required
+        var onRouteChangeOff = $rootScope.$on('$locationChangeStart', function routeChange(event, newUrl) {
+            
+            var nextPath = $location.path();
+            var nextRoute = $route.routes[nextPath];
+            
+            // redirect to /home if we are not logged in
+            if(nextRoute && nextRoute.targetLoginRequired && !loggedIn) {
+                $location.path("/home");
+            }
+        });
         
         // Create the service object
         return Object.create(Object.prototype, {
             
             // Files resource of the selected project properties
-            'filesResource': { get: function() { return filesResource; }, enumerable: true },
-            'fileResource': { get: function() { return fileResource; }, enumerable: true },
-            'fileNames': { get: function() { return fileNames; }, enumerable: true },
             'fileName': {
                 enumerable: true,
                 get: function() { return fileName; },
                 set: function(value) {
-                    if(fileNames.indexOf(value) > -1) {
-                        fileName = value;
-                        
-                        filesResource.getFile(fileName).then(
-                            function(fileResource_) {
-                                fileResource = fileResource_;
-                            }
-                        );
+                    if(value) {
+                        // check if it is a valid value
+                        rootResource.getProjects()
+                            .then(function(projectsResource) {
+                                return projectsResource.getProject(projectName);
+                            })
+                            .then(function(projectResource) {
+                                return projectResource.getFiles();
+                            })
+                            .then(function(filesResource) {
+                                if(filesResource.fileNames.indexOf(value) > -1) {
+                                    fileName = value;
+                                } else {
+                                    fileName = undefined;
+                                }
+                            })
+                            .catch(function(error) {
+                                fileName = undefined;
+                            });
                     } else {
-                        fileName = undefined;
+                        fileName = value;
                     }
                 }
             },
             
             // Projects resource properties
-            'projectResource': { get: function() { return projectResource; }, enumerable: true },
-            'projectNames': { get: function() { return projectNames; }, enumerable: true },
-            'projectType': { get: function() { return projectType; }, enumerable: true },
-            'projectLanguage': { get: function() { return projectLanguage; }, enumerable: true },
             'projectName': {
                 enumerable: true,
                 get: function() { return projectName; },
                 set: function(value) {
-                    fileResource = undefined;
                     fileName = undefined;
-                    filesResource = undefined;
-                    fileNames = undefined;
-                    projectResource = undefined;
                     
-                    if(projectNames.indexOf(value) > -1) {
-                        projectName = value;
-                        
-                        projectsResource.getProject(projectName).then(
-                            function(projectResource_) {
-                                projectResource = projectResource_;
-                                
-                                projectType = projectResource.type;
-                                projectLanguage = projectResource.language;
-                                projectResource.getFiles().then(
-                                    function(filesResource_) {
-                                        filesResource = filesResource_;
-                                        if(filesResource) {
-                                            fileNames = filesResource.fileNames;
-                                        }
-                                    }
-                                );
-                            }
-                        );
+                    if(value) {
+                        // check if it is a valid value
+                        rootResource.getProjects()
+                            .then(function(projectsResource) {
+                                if(projectsResource.projectNames.indexOf(value) > -1) {
+                                    projectName = value;
+                                } else {
+                                    projectName = undefined;
+                                }
+                            })
+                            .catch(function(error) {
+                                projectName = undefined;
+                            });
                     } else {
-                        projectName = undefined;
+                        projectName = value;
                     }
                 },
             },
             
             // Login / root resource
+            'rootResource': { get: function() { return rootResource; }, enumerable: true },
             'loggedIn': { get: function() { return loggedIn; }, enumerable: true },
             'loggingIn': { get: function() { return loggingIn; }, enumerable: true },
             'url': { get: function() { return url; }, enumerable: true },
-            'username': { get: function() { return username; }, enumerable: true },
+            'name': { get: function() { return name; }, enumerable: true },
+            'username': {
+                enumerable: true,
+                get: function() { return username; },
+                set: function(value) { if(loggedIn) { this.logOut(); } username = value; },
+            },
             'logIn': {
                 enumerable: true,
-                value: function(url_, username_, password_) {
+                value: function(url_, password_) {
                     this.logOut();
                     
                     loggingIn = true;
                     url = url_;
-                    username = username_;
                     password = password_;
                     
                     return $q(function(resolve, reject) {
@@ -118,12 +155,11 @@ angular.module('kissWebIdeServices', [])
                                 loggingIn = false;
                                 loggedIn = true;
                                 
-                                rootResource.getProjects().then(
-                                    function(projectsResource_) {
-                                        projectsResource = projectsResource_;
-                                        projectNames = projectsResource.projectNames;
-                                    }
-                                );
+                                $location.search('user', username);
+                                
+                                name = url; // TODO
+                                $location.search('target', name);
+                                
                                 resolve({});
                             },
                             function(xhr, status, error) {
@@ -140,25 +176,24 @@ angular.module('kissWebIdeServices', [])
             },
             'logOut': {
                 enumerable: true,
-                value: function() {
-                    fileResource = undefined;
-                    fileName = undefined;
+                value: logOut
+            },
+            
+            // Query string
+            'queryString': {
+                enumerable: true,
+                get: function() {
+                    var cnt = 0;
+                    var queryString = '';
                     
-                    filesResource = undefined;
-                    fileNames = undefined;
-                
-                    projectResource = undefined;
+                    if(name) {
+                        queryString += ((++cnt == 1)? '?' : '&') + 'target=' + name;
+                    }
+                    if(username) {
+                        queryString += ((++cnt == 1)? '?' : '&') + 'username=' + username;
+                    }
                     
-                    projectsResource = undefined;
-                    projectNames = undefined;
-                    projectName = undefined;
-                
-                    rootResource = undefined;
-                    loggedIn = false;
-                    loggingIn = false;
-                    url = undefined;
-                    username = undefined;
-                    password = undefined;
+                    return queryString;
                 }
             }
         });

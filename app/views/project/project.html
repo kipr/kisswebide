@@ -2,7 +2,7 @@
     <div class="row">
         <div class="page-header">
             <h2>{{target.projectName}}
-                <small data-ng-hide="!target.projectLanguage">[ {{target.projectLanguage}} ]</small>
+                <small data-ng-hide="!projectLanguage">[ {{projectLanguage}} ]</small>
             </h2>
         </div>
     </div>
@@ -25,7 +25,7 @@
                 </div>
                 
                 <div class="list-group">
-                    <a data-ng-repeat="fileName in target.fileNames | sourceFiles"
+                    <a data-ng-repeat="fileName in fileNames | sourceFiles"
                        data-ng-click="selectItem(fileName)"
                        class="list-group-item"
                        data-ng-class="{active: target.fileName && target.fileName == fileName}">
@@ -63,7 +63,7 @@
                 </div>
                 
                 <div class="list-group">
-                    <a data-ng-repeat="fileName in target.fileNames | headerFiles"
+                    <a data-ng-repeat="fileName in fileNames | headerFiles"
                        data-ng-click="selectItem(fileName)"
                        class="list-group-item"
                        data-ng-class="{active: target.fileName && target.fileName == fileName}">
@@ -102,7 +102,7 @@
                 </div>
                 
                 <div class="list-group">
-                    <a data-ng-repeat="fileName in target.fileNames | userDataFiles"
+                    <a data-ng-repeat="fileName in fileNames | userDataFiles"
                        data-ng-click="selectItem(fileName)"
                        class="list-group-item"
                        data-ng-class="{active: target.fileName && target.fileName == fileName}">
@@ -125,13 +125,13 @@
 </div>
 
 <create-file-dialog dialog-id="createSourceFileDialogId"
-                    folder-resource="target.filesResource"
+                    folder-resource="projectFolderResource"
                     extensions="sourceFileExtensions">
 </create-file-dialog>
 <create-file-dialog dialog-id="createHeaderFileDialogId"
-                    folder-resource="target.filesResource"
+                    folder-resource="projectFolderResource"
                     extensions="headerFileExtensions">
 </create-file-dialog>
 <create-file-dialog dialog-id="createUserDataFileDialogId"
-                    folder-resource="target.filesResource">
+                    folder-resource="projectFolderResource">
 </create-file-dialog>
