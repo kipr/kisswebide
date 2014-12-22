@@ -59,8 +59,11 @@ angular.module('BotWebApiServices', [])
         // Files Resource prototype
         function FilesResource(jsonData) {
             var fileNames = [];
-            for(var i = 0; i < jsonData.links.files.length; i++) {
-                fileNames[i] = jsonData.links.files[i].name;
+            
+            if(jsonData.links.files) {
+                for(var i = 0; i < jsonData.links.files.length; i++) {
+                    fileNames[i] = jsonData.links.files[i].name;
+                }
             }
             
             Object.defineProperties(this, { 
@@ -191,8 +194,11 @@ angular.module('BotWebApiServices', [])
         // Projects Resource prototype
         function ProjectsResource(jsonData) {
             var projectNames = [];
-            for(var i = 0; i < jsonData.links.projects.length; i++) {
-                projectNames[i] = jsonData.links.projects[i].name;
+            
+            if(jsonData.links.projects) {
+                for(var i = 0; i < jsonData.links.projects.length; i++) {
+                    projectNames[i] = jsonData.links.projects[i].name;
+                }
             }
             
             Object.defineProperties(this, { 
