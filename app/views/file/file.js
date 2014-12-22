@@ -5,6 +5,7 @@ angular.module('kissWebIdeControllers')
     function ($rootScope, $scope, $location, target) {
         var fileResource = undefined;
         var projectResource = undefined;
+        var editor = undefined;
         
         target.rootResource.getProjects()
             .then(function(projectsResource) {
@@ -24,7 +25,7 @@ angular.module('kissWebIdeControllers')
                 if(fileResource.content) {
                     content = Base64.decode(fileResource.content);
                 }
-                var editor = ace.edit('file_content');
+                editor = ace.edit('file_content');
                 editor.setTheme('ace/theme/crimson_editor');
                 editor.getSession().setMode('ace/mode/c_cpp');
                 editor.on('change', function(e) {
@@ -47,8 +48,10 @@ angular.module('kissWebIdeControllers')
         compileErrorElement.style.height = ((window.innerHeight - rect.top - 20)/4) + 'px';
         
         $scope.save = function() {
-            fileResource.content = editor.getValue();
-            $scope.documentChanged = false;
+            if(editor && $scope.documentChanged) {
+                fileResource.content = editor.getValue();
+                $scope.documentChanged = false;
+            }
         }
         
         $scope.output = '';
