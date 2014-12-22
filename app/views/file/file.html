@@ -14,20 +14,36 @@
     <pre id="compiler_error">{{output}}</pre>
 </div>
 
-<div class="modal fade" id="discardChangesDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="discardChangesDialog" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal">
+                    &times;
+                </button>
                 <h4 class="modal-title">You have unsaved changes</h4>
             </div>
             <div class="modal-body">
                 <p>You have unsaved changes. Do you want to save your changes?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-ng-click="clickSave()">Save</button>
-                <button type="button" class="btn btn-default" data-ng-click="clickDiscard()">Discard</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button"
+                        class="btn btn-primary"
+                        data-ng-click="clickSave()">
+                    Save
+                </button>
+                <button type="button"
+                        class="btn btn-default"
+                        data-ng-click="clickDiscard()">
+                    Discard
+                </button>
+                <button type="button"
+                        class="btn btn-default"
+                        data-dismiss="modal">
+                    Cancel
+                </button>
             </div>
         </div>
     </div>
