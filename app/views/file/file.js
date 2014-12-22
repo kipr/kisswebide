@@ -28,10 +28,13 @@ angular.module('kissWebIdeControllers')
                 editor = ace.edit('file_content');
                 editor.setTheme('ace/theme/crimson_editor');
                 editor.getSession().setMode('ace/mode/c_cpp');
+                editor.setValue(content, -1);
                 editor.on('change', function(e) {
                     $scope.documentChanged = true;
+                    $scope.$apply(function() {
+                        $scope.documentChanged = true;
+                    });
                 });
-                editor.setValue(content, -1);
                 
                 $scope.documentChanged = false;
             })
