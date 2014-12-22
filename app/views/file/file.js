@@ -24,8 +24,14 @@ angular.module('kissWebIdeControllers')
                 if(fileResource.content) {
                     content = Base64.decode(fileResource.content);
                 }
-                
+                var editor = ace.edit('file_content');
+                editor.setTheme('ace/theme/crimson_editor');
+                editor.getSession().setMode('ace/mode/c_cpp');
+                editor.on('change', function(e) {
+                    $scope.documentChanged = true;
+                });
                 editor.setValue(content, -1);
+                
                 $scope.documentChanged = false;
             })
             .catch(function(error) {
@@ -39,13 +45,6 @@ angular.module('kissWebIdeControllers')
         fileContentElement.style.height = ((window.innerHeight - rect.top - 20)*3/4) + 'px';
         var compileErrorElement = document.getElementById('compiler_error');
         compileErrorElement.style.height = ((window.innerHeight - rect.top - 20)/4) + 'px';
-        
-        var editor = ace.edit('file_content');
-        editor.setTheme('ace/theme/crimson_editor');
-        editor.getSession().setMode('ace/mode/c_cpp');
-        editor.on('change', function(e) {
-            $scope.documentChanged = true;
-        });
         
         $scope.save = function() {
             fileResource.content = editor.getValue();
