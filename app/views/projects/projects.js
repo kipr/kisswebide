@@ -29,7 +29,7 @@ angular.module('kissWebIdeControllers')
             if(projectName != $scope.target.projectName) {
                 $scope.selectItem(projectName);
             }
-            $location.path('/projects/' + projectName);
+            $location.path('/project/');
         }
         
         $scope.deleteItem = function(projectName) {
