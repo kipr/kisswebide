@@ -2,6 +2,7 @@
 
 angular.module('kissWebIdeApp', [
     'ngRoute',
+    'ui.bootstrap',
     'kissWebIdeControllers',
     'kissWebIdeServices',
     'BotWebApiServices'
@@ -51,8 +52,8 @@ angular.module('kissWebIdeApp', [
 
 angular.module('kissWebIdeControllers', [])
 
-.controller('HeaderController', ['$scope', '$location', 'target', 'botWebApi',
-    function ($scope, $location, target, botWebApi) {
+.controller('HeaderController', ['$scope', '$location', '$modal', 'target', 'botWebApi',
+    function ($scope, $location, $modal, target, botWebApi) {
         $scope.$location = $location;
         $scope.target = target;
         
@@ -60,13 +61,16 @@ angular.module('kissWebIdeControllers', [])
         $scope.wsProjSelectDialogId = 'HeaderController_wsProjSelectDialogId';
         $scope.fileSelectDialogId = 'HeaderController_fileSelectDialogId';
         
-        $scope.$watch('target.loggedIn', function(newValue, oldValue) {
-            if(newValue) {
-                //$location.path('/target');
-                //$location.search('user', 'test');
-            } else {
-                //$location.path('/');
-            }
-        });
+        $scope.openSelectTarget = function(size) {
+            var modalInstance = $modal.open({
+                templateUrl: 'dialogs/target_select.html',
+                controller: 'ModalInstanceCtrl',
+                size: size
+            });
+
+            modalInstance.result.then(function() {
+                $location.path('/target');
+            });
+        };
     }
 ]);

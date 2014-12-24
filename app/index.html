@@ -13,6 +13,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-route.min.js"></script>
+        <script src="/libs/angularUi/ui-bootstrap-tpls-0.12.0.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="/libs/base64/base64.js"></script>
         
@@ -63,7 +64,7 @@
                         
                         <!-- Login / target view -->
                         <li data-ng-hide="target.loggedIn" data-ng-class="{active: $location.path() == '\target'}">
-                            <a data-toggle="modal"
+                            <a data-ng-click="openSelectTarget()"
                                data-ng-attr-data-target="{{ '#' + targetSelectDialogId}}">
                                 Log in to Target...
                             </a>
@@ -78,7 +79,7 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a data-ng-href="#/home" data-ng-click="target.logOut()">Log Out</a></li>
-                                <li><a data-toggle="modal" data-ng-attr-data-target="{{ '#' + targetSelectDialogId}}">
+                                <li><a data-ng-click="openSelectTarget()"">
                                     Change Target
                                 </a></li>
                             </ul>
@@ -169,7 +170,6 @@
                 </div>
             </div>
             
-            <target-select-dialog dialog-id="targetSelectDialogId"></target-select-dialog>
             <ws-proj-select-dialog dialog-id="wsProjSelectDialogId"></ws-proj-select-dialog>
             <file-select-dialog dialog-id="fileSelectDialogId"></file-select-dialog>
         </nav>

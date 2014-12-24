@@ -1,27 +1,35 @@
-<div class="modal fade" data-ng-attr-id="{{dialogId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Select a Target</h4>
-            </div>
-            <div class="modal-body">
-                <h4>Login Information:</h4>
-                <form>
-                    Username: <input type="text" data-ng-model="target.username" data-ng-disabled="target.loggingIn" size="18">
-                    Password: <input type="password" data-ng-model="targetPassword" data-ng-disabled="target.loggingIn" size="18">
-                </form>
-                <h4>Target URL:</h4>
-                <form>
-                    <input type="radio" data-ng-model="targetLocation" value="target_is_server" data-ng-disabled="target.loggingIn">Target = Server</input><br>
-                    <input type="radio" data-ng-model="targetLocation" value="target_by_ip" data-ng-disabled="target.loggingIn">Select target by IP:</input>
-                    <input type="text" data-ng-model="targetIp" data-ng-disabled="target.loggingIn" size="15" maxlength="15">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" data-ng-disabled="target.loggingIn">Close</button>
-                <button type="button" class="btn btn-primary" data-ng-click="logIn()" data-ng-disabled="target.loggingIn">Log In</button>
-            </div>
-        </div>
-    </div>
+<div class="modal-header">
+    <button type="button"
+            class="close"
+            data-ng-click="cancel()">
+        &times;
+    </button>
+    <h4 class="modal-title">Select a Target</h4>
+</div>
+<div class="modal-body">
+    <h4>Login Information:</h4>
+    <form>
+        Username: <input type="text" data-ng-model="target.username" data-ng-disabled="target.loggingIn" size="18">
+        Password: <input type="password" data-ng-model="targetPassword" data-ng-disabled="target.loggingIn" size="18">
+    </form>
+    <h4>Target URL:</h4>
+    <form>
+        <input type="radio" data-ng-model="targetLocation" value="target_is_server" data-ng-disabled="target.loggingIn">Target = Server</input><br>
+        <input type="radio" data-ng-model="targetLocation" value="target_by_ip" data-ng-disabled="target.loggingIn">Select target by IP:</input>
+        <input type="text" data-ng-model="targetIp" data-ng-disabled="target.loggingIn" size="15" maxlength="15">
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button"
+            class="btn btn-default"
+            data-ng-click="cancel()"
+            data-ng-disabled="target.loggingIn">
+        Close
+    </button>
+    <button type="button"
+            class="btn btn-primary"
+            data-ng-click="logIn()"
+            data-ng-disabled="target.loggingIn">
+        Log In
+    </button>
 </div>
