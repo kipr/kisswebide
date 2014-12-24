@@ -1,5 +1,14 @@
 'use strict';
 
+function Resource(jsonData) {
+    Object.defineProperties(this, {
+        'uri': { get: function() { return jsonData.links.self.href; }, enumerable: true },
+        'resourceClass': { get: function() { return jsonData.about.resource_class; }, enumerable: true },
+        'resourceVersion': { get: function() { return jsonData.about.resource_version; }, enumerable: true },
+        'resourceHomepage': { get: function() { return jsonData.about.resource_homepage; }, enumerable: true }
+    });
+}
+
 angular.module('BotWebApiServices', [])
 
 .factory('file', ['$http', '$q',
@@ -7,6 +16,7 @@ angular.module('BotWebApiServices', [])
         
         // Files Resource prototype
         function FileResource(jsonData) {
+            Resource.call(this, jsonData);
             Object.defineProperties(this, { 
                 'content' : {
                     enumerable: true,
@@ -58,6 +68,7 @@ angular.module('BotWebApiServices', [])
         
         // Files Resource prototype
         function FilesResource(jsonData) {
+            Resource.call(this, jsonData);
             var fileNames = [];
             
             if(jsonData.links.files) {
@@ -135,7 +146,7 @@ angular.module('BotWebApiServices', [])
         
         // Project Resource prototype
         function ProjectResource(jsonData) {
-            
+            Resource.call(this, jsonData);
             Object.defineProperties(this, { 
                 'type' : { get: function() { return jsonData.type; }, enumerable: true },
                 'language' : { get: function() { return jsonData.language; }, enumerable: true },
@@ -193,6 +204,7 @@ angular.module('BotWebApiServices', [])
         
         // Projects Resource prototype
         function ProjectsResource(jsonData) {
+            Resource.call(this, jsonData);
             var projectNames = [];
             
             if(jsonData.links.projects) {
@@ -243,6 +255,7 @@ angular.module('BotWebApiServices', [])
         
         // Root Resource prototype
         function RootResource(jsonData) {
+            Resource.call(this, jsonData);
             Object.defineProperties(this, {
                 'getProjects' : {
                     enumerable: true,
