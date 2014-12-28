@@ -72,15 +72,28 @@ angular.module('kissWebIdeControllers', [])
         };
         
         $scope.openSelectProject = function(size) {
-            var modalInstance = $modal.open({
-                templateUrl: 'dialogs/ws_proj_select.html',
-                controller: 'ProjectSelectDialogController',
-                size: size
-            });
+            target.rootResource.getProjects()
+                .then(function(projectsResource) {
+                    var modalInstance = $modal.open({
+                        templateUrl: 'dialogs/list_select.html',
+                        controller: 'ProjectSelectDialogController',
+                        size: size,
+                        resolve: {
+                            title: function() { return 'Select a Project'; },
+                            list: function() { return projectsResource.projectNames; }
+                        }
+                    });
 
-            modalInstance.result.then(function() {
-                $location.path('/project');
-            });
+                    modalInstance.result.then(function(project) {
+                        if(project) {
+                            target.projectName = project;
+                            $location.path('/project');
+                        }
+                    });
+                })
+                .catch(function(error) {
+                    alert('Could not load the list of project');
+                });
         };
     }
 ]);

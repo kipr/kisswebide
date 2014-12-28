@@ -4,17 +4,17 @@
             data-ng-click="cancel()">
         &times;
     </button>
-    <h4 class="modal-title">Select a Project</h4>
+    <h4 class="modal-title">{{title}}</h4>
 </div>
 
 <div class="modal-body">
     <h4>Projects:</h4>
     <div class="list-group">
-        <a data-ng-repeat="projectName in projectNames"
-           data-ng-click="selectItem(projectName)"
+        <a data-ng-repeat="item in list"
+           data-ng-click="selectItem(item)"
            class="list-group-item"
-           data-ng-class="{active: currentlySelected && currentlySelected == projectName}">
-            {{projectName}}
+           data-ng-class="{active: selectedItem && selectedItem == item}">
+            {{item}}
         </a>
     </div>
 </div>
@@ -27,7 +27,7 @@
     <button type="button"
             class="btn btn-primary"
             data-ng-click="select()"
-            data-ng-disabled="!currentlySelected">
+            data-ng-disabled="!selectedItem">
         OK
     </button>
 </div>
