@@ -116,10 +116,7 @@
                                 {{target.projectName}} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a data-toggle="modal"
-                                       data-ng-attr-data-target="{{ '#' + wsProjSelectDialogId}}">
-                                        Change Project
-                                    </a>
+                                <li><a data-ng-click="openSelectProject()">Change Project</a>
                                 </li>
                             </ul>
                         </li>
@@ -165,7 +162,6 @@
                 </div>
             </div>
             
-            <ws-proj-select-dialog dialog-id="wsProjSelectDialogId"></ws-proj-select-dialog>
             <file-select-dialog dialog-id="fileSelectDialogId"></file-select-dialog>
         </nav>
             
