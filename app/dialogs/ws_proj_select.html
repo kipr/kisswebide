@@ -1,31 +1,33 @@
-<div class="modal fade" data-ng-attr-id="{{dialogId}}" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Select a Project</h4>
-            </div>
-            <div class="modal-body">
-                <h4>Projects:</h4>
-                <div class="list-group">
-                    <a data-ng-repeat="projectName in projectNames"
-                       data-ng-click="selectItem(projectName)"
-                       class="list-group-item"
-                       data-ng-class="{active: currentlySelected && currentlySelected == projectName}">
-                        {{projectName}}
-                    </a>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button"
-                        class="btn btn-primary"
-                        data-dismiss="modal"
-                        data-ng-click="select()"
-                        data-ng-disabled="!currentlySelected">
-                    OK
-                </button>
-            </div>
-        </div>
+<div class="modal-header">
+    <button type="button"
+            class="close"
+            data-ng-click="cancel()">
+        &times;
+    </button>
+    <h4 class="modal-title">Select a Project</h4>
+</div>
+
+<div class="modal-body">
+    <h4>Projects:</h4>
+    <div class="list-group">
+        <a data-ng-repeat="projectName in projectNames"
+           data-ng-click="selectItem(projectName)"
+           class="list-group-item"
+           data-ng-class="{active: currentlySelected && currentlySelected == projectName}">
+            {{projectName}}
+        </a>
     </div>
+</div>
+<div class="modal-footer">
+    <button type="button"
+            class="btn btn-default"
+            data-ng-click="cancel()">
+        Close
+    </button>
+    <button type="button"
+            class="btn btn-primary"
+            data-ng-click="select()"
+            data-ng-disabled="!currentlySelected">
+        OK
+    </button>
 </div>

@@ -64,10 +64,7 @@
                         
                         <!-- Login / target view -->
                         <li data-ng-hide="target.loggedIn" data-ng-class="{active: $location.path() == '\target'}">
-                            <a data-ng-click="openSelectTarget()"
-                               data-ng-attr-data-target="{{ '#' + targetSelectDialogId}}">
-                                Log in to Target...
-                            </a>
+                            <a data-ng-click="openSelectTarget()">Log in to Target...</a>
                         </li>
                         <li class="dropdown"
                             data-ng-show="target.loggedIn && $location.path() == '/target'"
@@ -101,16 +98,14 @@
                         <!-- Projects view -->
                         <li data-ng-show="target.loggedIn"
                             data-ng-class="{active: $location.path() == '/projects'}">
-                            <a  href="#/projects">Projects</a>
+                            <a href="#/projects">Projects</a>
                         
                         </li>
                         
                         <!-- Project view -->
                         <li data-ng-show="!target.projectName && target.loggedIn"
-                            data-ng-class="{active: $routeParams.projectName}"
-                            data-toggle="modal"
-                            data-ng-attr-data-target="{{ '#' + wsProjSelectDialogId}}">
-                            <a>Select a Project...</a>
+                            data-ng-class="{active: $routeParams.projectName}">
+                            <a data-ng-click="openSelectProject()">Select a Project...</a>
                         </li>
                         <li class="dropdown"
                             data-ng-show="target.projectName && $location.path() == '/project'"

@@ -57,8 +57,6 @@ angular.module('kissWebIdeControllers', [])
         $scope.$location = $location;
         $scope.target = target;
         
-        $scope.targetSelectDialogId = 'HeaderController_targetSelectDialogId';
-        $scope.wsProjSelectDialogId = 'HeaderController_wsProjSelectDialogId';
         $scope.fileSelectDialogId = 'HeaderController_fileSelectDialogId';
         
         $scope.openSelectTarget = function(size) {
@@ -70,6 +68,18 @@ angular.module('kissWebIdeControllers', [])
 
             modalInstance.result.then(function() {
                 $location.path('/target');
+            });
+        };
+        
+        $scope.openSelectProject = function(size) {
+            var modalInstance = $modal.open({
+                templateUrl: 'dialogs/ws_proj_select.html',
+                controller: 'ProjectSelectDialogController',
+                size: size
+            });
+
+            modalInstance.result.then(function() {
+                $location.path('/project');
             });
         };
     }
