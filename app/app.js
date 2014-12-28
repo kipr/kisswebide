@@ -76,23 +76,54 @@ angular.module('kissWebIdeControllers', [])
                 .then(function(projectsResource) {
                     var modalInstance = $modal.open({
                         templateUrl: 'dialogs/list_select.html',
-                        controller: 'ProjectSelectDialogController',
+                        controller: 'ListSelectDialogController',
                         size: size,
                         resolve: {
                             title: function() { return 'Select a Project'; },
                             list: function() { return projectsResource.projectNames; }
                         }
                     });
-
-                    modalInstance.result.then(function(project) {
-                        if(project) {
-                            target.projectName = project;
+                    
+                    modalInstance.result.then(function(projectName) {
+                        if(projectName) {
+                            target.projectName = projectName;
                             $location.path('/project');
                         }
                     });
                 })
                 .catch(function(error) {
                     alert('Could not load the list of project');
+                });
+        };
+        
+        $scope.openSelectFile = function(size) {
+            target.rootResource.getProjects()
+                .then(function(projectsResource) {
+                    return projectsResource.getProject(target.projectName);
+                })
+                .then(function(projectResource) {
+                    return projectResource.getFiles();
+                })
+                .then(function(filesResource) {
+                    var modalInstance = $modal.open({
+                        templateUrl: 'dialogs/list_select.html',
+                        controller: 'ListSelectDialogController',
+                        size: size,
+                        resolve: {
+                            title: function() { return 'Select a File'; },
+                            list: function() { return filesResource.fileNames; }
+                        }
+                    });
+                    
+                    modalInstance.result.then(function(fileName) {
+                        if(fileName) {
+                            target.fileName = fileName;
+                            $location.path('/file');
+                        }
+                    });
+                })
+                .catch(function(error) {
+                    alert('Could not load the list of file');
                 });
         };
     }

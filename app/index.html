@@ -35,7 +35,6 @@
         <!-- dialogs -->
         <script src="dialogs/target_select.js"></script>
         <script src="dialogs/list_select.js"></script>
-        <script src="dialogs/file_select.js"></script>
         <script src="dialogs/create_file.js"></script>
         
         <title>KISS Web IDE</title>
@@ -99,7 +98,6 @@
                         <li data-ng-show="target.loggedIn"
                             data-ng-class="{active: $location.path() == '/projects'}">
                             <a href="#/projects">Projects</a>
-                        
                         </li>
                         
                         <!-- Project view -->
@@ -116,8 +114,7 @@
                                 {{target.projectName}} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a data-ng-click="openSelectProject()">Change Project</a>
-                                </li>
+                                <li><a data-ng-click="openSelectProject()">Change Project</a></li>
                             </ul>
                         </li>
                         <li data-ng-show="target.projectName && $location.path() != '/project'"
@@ -131,10 +128,7 @@
                         <!-- File view -->
                         <li data-ng-show="!target.fileName && target.projectName && target.loggedIn"
                             data-ng-class="{active: $routeParams.fileName}">
-                            <a data-toggle="modal"
-                               data-ng-attr-data-target="{{ '#' + fileSelectDialogId}}">
-                                Select a File...
-                            </a>
+                            <a data-ng-click="openSelectFile()">Select a File...</a>
                         </li>
                         <li class="dropdown"
                             data-ng-show="target.fileName && $location.path() == '/file'"
@@ -145,10 +139,7 @@
                                 {{target.fileName}} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a data-toggle="modal"
-                                       data-ng-attr-data-target="{{ '#' + fileSelectDialogId}}">
-                                    Change File
-                                </a></li>
+                                <li><a data-ng-click="openSelectFile()">Change File</a></li>
                             </ul>
                         </li>
                         <li data-ng-show="target.fileName && $location.path() != '/file'"
@@ -161,8 +152,6 @@
                     </ul>
                 </div>
             </div>
-            
-            <file-select-dialog dialog-id="fileSelectDialogId"></file-select-dialog>
         </nav>
             
         <div id="content_container" data-ng-view></div>
