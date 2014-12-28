@@ -4,7 +4,6 @@ angular.module('kissWebIdeControllers')
 
 .controller('ProjectSelectDialogController', ['$scope', '$modalInstance', 'target',
     function ($scope, $modalInstance, target) {
-        console.log('xxx');
         $scope.target = target;
         $scope.currentlySelected = false;
         target.rootResource.getProjects()
