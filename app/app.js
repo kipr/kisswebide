@@ -64,7 +64,7 @@ angular.module('kissWebIdeControllers', [])
         $scope.openSelectTarget = function(size) {
             var modalInstance = $modal.open({
                 templateUrl: 'dialogs/target_select.html',
-                controller: 'ModalInstanceCtrl',
+                controller: 'TargetSelectDialogController',
                 size: size
             });
 

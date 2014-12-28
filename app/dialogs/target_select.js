@@ -2,7 +2,7 @@
 
 angular.module('kissWebIdeControllers')
 
-.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'target',
+.controller('TargetSelectDialogController', ['$scope', '$modalInstance', 'target',
     function ($scope, $modalInstance, target) {
         $scope.target = target;
         $scope.target.username = 'User';
