@@ -39,7 +39,10 @@ angular.module('BotWebApiServices', [])
                         });
                     }
                 },
-                'path': { get: function() { return jsonData.path; }, enumerable: true }
+                'name': { get: function() { return jsonData.name; }, enumerable: true },
+                'path': { get: function() { return jsonData.path; }, enumerable: true },
+                'hasParent': { get: function() { return !(/api\/fs#/.test(jsonData.links.parent.href)); }, enumerable: true },
+                'parentUri': { get: function() { return jsonData.links.parent.href; }, enumerable: true }
             });
         }
         
@@ -70,6 +73,7 @@ angular.module('BotWebApiServices', [])
         function FilesResource(jsonData) {
             Resource.call(this, jsonData);
             var fileNames = [];
+            var directoryNames = [];
             
             if(jsonData.links.files) {
                 for(var i = 0; i < jsonData.links.files.length; i++) {
@@ -77,8 +81,15 @@ angular.module('BotWebApiServices', [])
                 }
             }
             
+            if(jsonData.links.directories) {
+                for(var i = 0; i < jsonData.links.directories.length; i++) {
+                    directoryNames[i] = jsonData.links.directories[i].name;
+                }
+            }
+            
             Object.defineProperties(this, { 
                 'fileNames' : { get: function() { return fileNames; }, enumerable: true },
+                'directoryNames' : { get: function() { return directoryNames; }, enumerable: true },
                 'getFile' : {
                     enumerable: true,
                     value: function(name) {
@@ -117,7 +128,10 @@ angular.module('BotWebApiServices', [])
                         });
                     }
                 },
-                'path': { get: function() { return jsonData.path; }, enumerable: true }
+                'name': { get: function() { return jsonData.name; }, enumerable: true },
+                'path': { get: function() { return jsonData.path; }, enumerable: true },
+                'hasParent': { get: function() { return !(/api\/fs#/.test(jsonData.links.parent.href)); }, enumerable: true },
+                'parentUri': { get: function() { return jsonData.links.parent.href; }, enumerable: true }
             });
         }
         
