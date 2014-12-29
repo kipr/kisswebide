@@ -1,16 +1,11 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('ProjectController', ['$scope', '$q', '$location', 'target',
-    function ($scope, $q, $location, target) {
+.controller('ProjectController', ['$scope', '$q', '$location', '$modal', 'target',
+    function ($scope, $q, $location, $modal, target) {
         $scope.target = target;
-        $scope.createSourceFileDialogId = 'ProjectController_createSourceFileDialogId';
-        $scope.createHeaderFileDialogId = 'ProjectController_createHeaderFileDialogId';
-        $scope.createUserDataFileDialogId = 'ProjectController_createUserDataFileDialogId';
-        $scope.sourceFileExtensions = ['.c'];
-        $scope.headerFileExtensions = ['.h'];
         
-        $scope.projectFolderResource = $q(function(resolve, reject) {
+        var projectFolderResource = $q(function(resolve, reject) {
             target.rootResource.getProjects()
                 .then(function(projectsResource) {
                     return projectsResource.getProject(target.projectName);
@@ -28,6 +23,42 @@ angular.module('kissWebIdeControllers')
                     //alert('Could not open ' + target.projectName);
                 });
         });
+        
+        $scope.createSourceFile = function(size) {
+            var modalInstance = $modal.open({
+                templateUrl: 'dialogs/create_file.html',
+                controller: 'CreateFileDialogController',
+                size: size,
+                resolve: {
+                    folderResource: function() { return projectFolderResource; },
+                    extensions: function() { return ['.c']; }
+                }
+            });
+        }
+        
+        $scope.createHeaderFile = function(size) {
+            var modalInstance = $modal.open({
+                templateUrl: 'dialogs/create_file.html',
+                controller: 'CreateFileDialogController',
+                size: size,
+                resolve: {
+                    folderResource: function() { return projectFolderResource; },
+                    extensions: function() { return ['.h']; }
+                }
+            });
+        }
+        
+        $scope.createUserDataFile = function(size) {
+            var modalInstance = $modal.open({
+                templateUrl: 'dialogs/create_file.html',
+                controller: 'CreateFileDialogController',
+                size: size,
+                resolve: {
+                    folderResource: function() { return projectFolderResource; },
+                    extensions: function() { return undefined; }
+                }
+            });
+        }
         
         $scope.selectItem = function(fileName) {
             if(fileName == $scope.target.fileName) {

@@ -16,8 +16,7 @@
                     <div class="btn-group-xs pull-right">
                         <button type="button"
                                 class="btn btn-default"
-                                data-toggle="modal"
-                                data-ng-attr-data-target="{{ '#' + createSourceFileDialogId}}">
+                                data-ng-click="createSourceFile()">
                             <span class="glyphicon glyphicon-file"></span>
                         </button>
                     </div>
@@ -54,8 +53,7 @@
                     <div class="btn-group-xs pull-right">
                         <button type="button"
                                 class="btn btn-default"
-                                data-toggle="modal"
-                                data-ng-attr-data-target="{{ '#' + createHeaderFileDialogId}}">
+                                data-ng-click="createHeaderFile()">
                             <span class="glyphicon glyphicon-file"></span>
                         </button>
                     </div>
@@ -95,8 +93,7 @@
                     <div class="btn-group-xs pull-right">
                         <button type="button"
                                 class="btn btn-default"
-                                data-toggle="modal"
-                                data-ng-attr-data-target="{{ '#' + createUserDataFileDialogId}}">
+                                data-ng-click="createUserDataFile()">
                             <span class="glyphicon glyphicon-file"></span>
                         </button>
                     </div>
@@ -127,15 +124,3 @@
         </div>
     </div>
 </div>
-
-<create-file-dialog dialog-id="createSourceFileDialogId"
-                    folder-resource="projectFolderResource"
-                    extensions="sourceFileExtensions">
-</create-file-dialog>
-<create-file-dialog dialog-id="createHeaderFileDialogId"
-                    folder-resource="projectFolderResource"
-                    extensions="headerFileExtensions">
-</create-file-dialog>
-<create-file-dialog dialog-id="createUserDataFileDialogId"
-                    folder-resource="projectFolderResource">
-</create-file-dialog>
