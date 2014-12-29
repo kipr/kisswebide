@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('ProjectSelectDialogController', ['$scope', '$modalInstance', 'title', 'list',
+.controller('ListSelectDialogController', ['$scope', '$modalInstance', 'title', 'list',
     function ($scope, $modalInstance, title, list) {
         $scope.title = title;
         $scope.list = list;
