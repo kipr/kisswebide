@@ -25,7 +25,7 @@ angular.module('kissWebIdeControllers')
                 })
                 .catch(function(error) {
                     reject({});
-                    alert('Could not open ' + target.projectName);
+                    //alert('Could not open ' + target.projectName);
                 });
         });
         

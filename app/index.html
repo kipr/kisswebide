@@ -48,7 +48,6 @@
                             class="navbar-toggle collapsed"
                             data-toggle="collapse"
                             data-target="#main-navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -62,92 +61,74 @@
                     <ul class="nav navbar-nav">
                         
                         <!-- Login / target view -->
-                        <li data-ng-hide="target.loggedIn" data-ng-class="{active: $location.path() == '\target'}">
-                            <a data-ng-click="openSelectTarget()">Log in to Target...</a>
-                        </li>
-                        <li class="dropdown"
-                            data-ng-show="target.loggedIn && $location.path() == '/target'"
-                            data-ng-class="{active: $location.path() == '/target'}">
-                            <a class="dropdown-toggle"
+                        <li class="dropdown" data-ng-class="{active: $location.path() == '/target'}">
+                            <a href="#/target"
+                               class="dropdown-toggle"
                                data-toggle="dropdown"
                                role="button">
-                                {{target.name}} <span class="caret"></span>
+                                <small><small>Target:</small></small><br class="hidden-xs">
+                                {{target.loggedIn ? target.name : 'No target selected'}} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a data-ng-href="#/home" data-ng-click="target.logOut()">Log Out</a></li>
-                                <li><a data-ng-click="openSelectTarget()"">
-                                    Change Target
+                                <li data-ng-show="target.loggedIn">
+                                    <a data-ng-href="#/home" data-ng-click="target.logOut()">
+                                        Log Out
+                                    </a>
+                                </li>
+                                <li><a data-ng-click="openSelectTarget()">
+                                    {{target.loggedIn ?  'Change target' : 'Log In'}}
                                 </a></li>
                             </ul>
-                        </li>
-                        <li class="dropdown"
-                            data-ng-show="target.loggedIn && $location.path() != '/target'"
-                            data-ng-class="{active: $location.path() == '/target'}">
-                            <a data-ng-href="#/target"
-                               role="button">
-                                {{target.name}} <span class="caret"></span>
-                            </a>
                         </li>
                         
                         <!-- User view -->
                         <li data-ng-show="target.loggedIn" data-ng-class="{active: $location.path() == '/user'}">
-                            <a data-ng-href="#/user">{{target.username}}</a>
+                            <a href="#/user">
+                                <small><small>User:</small></small><br class="hidden-xs">
+                                {{target.username}}
+                            </a>
                         </li>
                         
                         <!-- Projects view -->
-                        <li data-ng-show="target.loggedIn"
-                            data-ng-class="{active: $location.path() == '/projects'}">
-                            <a href="#/projects">Projects</a>
+                        <li data-ng-show="target.loggedIn" data-ng-class="{active: $location.path() == '/projects'}">
+                            <a href="#/projects">
+                                <small><small>Projects:</small></small><br class="hidden-xs">
+                                Projects
+                            </a>
                         </li>
                         
                         <!-- Project view -->
-                        <li data-ng-show="!target.projectName && target.loggedIn"
-                            data-ng-class="{active: $routeParams.projectName}">
-                            <a data-ng-click="openSelectProject()">Select a Project...</a>
-                        </li>
-                        <li class="dropdown"
-                            data-ng-show="target.projectName && $location.path() == '/project'"
+                        <li data-ng-show="target.loggedIn"
+                            class="dropdown"
                             data-ng-class="{active: $location.path() == '/project'}">
-                            <a class="dropdown-toggle"
+                            <a href="#/project"
+                               class="dropdown-toggle"
                                data-toggle="dropdown"
                                role="button">
-                                {{target.projectName}} <span class="caret"></span>
+                                <small><small>Project:</small></small><br class="hidden-xs">
+                                {{target.projectName ? target.projectName : 'No project selected'}} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a data-ng-click="openSelectProject()">Change Project</a></li>
+                                <li><a data-ng-click="openSelectProject()">
+                                    {{target.projectName ?  'Change project' : 'Open project'}}
+                                </a></li>
                             </ul>
-                        </li>
-                        <li data-ng-show="target.projectName && $location.path() != '/project'"
-                            data-ng-class="{active: $location.path() == '/project'}">
-                            <a data-ng-href="#/project"
-                               role="button">
-                                {{target.projectName}} <span class="caret"></span>
-                            </a>
                         </li>
                         
                         <!-- File view -->
-                        <li data-ng-show="!target.fileName && target.projectName && target.loggedIn"
-                            data-ng-class="{active: $routeParams.fileName}">
-                            <a data-ng-click="openSelectFile()">Select a File...</a>
-                        </li>
-                        <li class="dropdown"
-                            data-ng-show="target.fileName && $location.path() == '/file'"
+                        <li data-ng-show="target.projectName"
+                            class="dropdown"
                             data-ng-class="{active: $location.path() == '/file'}">
-                            <a class="dropdown-toggle"
+                            <a href="#/file"
+                               class="dropdown-toggle"
                                data-toggle="dropdown"
                                role="button">
-                                {{target.fileName}} <span class="caret"></span>
+                                <small><small>File:</small></small><br class="hidden-xs">
+                                {{target.fileName ? target.fileName : 'No file selected'}} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a data-ng-click="openSelectFile()">Change File</a></li>
+                                <li><a data-ng-click="openSelectFile()">Open file</a></li>
                             </ul>
-                        </li>
-                        <li data-ng-show="target.fileName && $location.path() != '/file'"
-                            data-ng-class="{active: $location.path() == '/file'}">
-                            <a data-ng-href="#/file"
-                               role="button">
-                                {{target.fileName}} <span class="caret"></span>
-                            </a>
                         </li>
                     </ul>
                 </div>

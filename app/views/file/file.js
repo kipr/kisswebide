@@ -39,7 +39,7 @@ angular.module('kissWebIdeControllers')
                 $scope.documentChanged = false;
             })
             .catch(function(error) {
-                alert('Could not open ' + target.fileName);
+                //alert('Could not open ' + target.fileName);
             });
         
         $scope.documentChanged = false;
