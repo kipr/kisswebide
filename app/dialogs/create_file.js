@@ -15,7 +15,7 @@ angular.module('kissWebIdeControllers')
         }
         
         $scope.create = function() {
-            $scope.folderResource.createFile(
+            folderResource.createFile(
                 $scope.fileName + ($scope.extension ? $scope.extension : ''),
                 false
             );
