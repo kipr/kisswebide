@@ -1,1 +1,36 @@
-user
+<div class="container">
+    <div class="row">
+        <div class="page-header">
+            <h2>{{target.username}}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Workspace</h3>
+                </div>
+                    <div class="list-group">
+                        <div class="list-group-item"
+                             data-ng-class="{'list-group-item-success' : workspacePath,
+                                             'list-group-item-danger' : !workspacePath}">
+                            <div class="btn-group-xs pull-right">
+                                <button type="button"
+                                        class="btn btn-default"
+                                        data-ng-click="openWorkspace()">
+                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                </button>
+                            </div>
+                            <p><big>Directory based workspace</big></p>
+                            <p>Remote workspace directory:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;{{workspacePath}}</p>
+                        </div>
+                        <div class="list-group-item disabled ">
+                            <big>KISS Platform workspace</big>
+                            <p>Not available yet</p>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
