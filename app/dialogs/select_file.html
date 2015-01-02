@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <button type="button"
+            class="close"
+            data-ng-click="cancel()">
+        &times;
+    </button>
+    <h4 class="modal-title">Select a File</h4>
+</div>
+
+<div class="modal-body">
+    <div class="list-group restrict-height">
+        <a data-ng-click="showParent()"
+           class="list-group-item"
+           data-ng-show="currentDirectory.hasParent">
+            ..
+        </a>
+        <a data-ng-repeat="folder in currentDirectory.directoryNames"
+           data-ng-click="selectFolder(folder)"
+           class="list-group-item"
+           data-ng-class="{active: selectedFolder && selectedFolder == folder}">
+            {{folder}}
+        </a>
+        <a data-ng-repeat="file in currentDirectory.fileNames"
+           data-ng-click="selectFile(file)"
+           class="list-group-item"
+           data-ng-class="{active: selectedFile && selectedFile == file}">
+            {{file}}
+        </a>
+    </div>
+    <br>
+    <label for="path">Selected
+                      <span data-ng-hide="selectedFile">folder:</span>
+                      <span data-ng-show="selectedFile">file:</span>
+                      </label>
+    <p id="path">{{currentDirectory.path}}<span data-ng-show="selectedFolder">\{{selectedFolder}}</span><span data-ng-show="selectedFile">\{{selectedFile}}</span></p>
+</div>
+
+<div class="modal-footer">
+    <button type="button"
+            class="btn btn-default"
+            data-ng-click="cancel()">
+        Cancel
+    </button>
+    <button type="button"
+            class="btn btn-default"
+            data-ng-click="open(selectedFolder)"
+            data-ng-disabled="!selectedFolder">
+        Open
+    </button>
+    <button type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            data-ng-click="select()">
+        Select
+    </button>
+</div>
