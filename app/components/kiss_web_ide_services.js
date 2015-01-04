@@ -2,14 +2,18 @@
 
 angular.module('kissWebIdeServices', [])
 
-.factory('target', ['$rootScope', '$q', '$location', '$route', 'botWebApi', 
-    function($rootScope, $q, $location, $route, botWebApi) {
+.factory('target', ['$rootScope', '$q', '$location', '$route', 'botWebApi', 'workspace',
+    function($rootScope, $q, $location, $route, botWebApi, workspace) {
         
         // Selected file name of the selected project
         var fileName = undefined;
         
         // Selected project name
         var projectName = undefined;
+        
+        // Workspace URI
+        var workspaceUri = undefined;
+        var workspaceName = undefined;
         
         // Login / root resource
         var rootResource = undefined;
@@ -83,23 +87,27 @@ angular.module('kissWebIdeServices', [])
                     
                     if(value) {
                         // check if it is a valid value
-                        rootResource.getProjects()
-                            .then(function(projectsResource) {
-                                return projectsResource.getProject(projectName);
-                            })
-                            .then(function(projectResource) {
-                                return projectResource.getFiles();
-                            })
-                            .then(function(filesResource) {
-                                if(filesResource.fileNames.indexOf(value) > -1) {
-                                    fileName = value;
-                                } else {
+                        if(workspaceUri) {
+                            workspace.getResource(workspaceUri)
+                                .then(function(workspaceResource) {
+                                    return workspaceResource.getProject(projectName);
+                                })
+                                .then(function(projectResource) {
+                                    return projectResource.getFiles();
+                                })
+                                .then(function(filesResource) {
+                                    if(filesResource.fileNames.indexOf(value) > -1) {
+                                        fileName = value;
+                                    } else {
+                                        fileName = undefined;
+                                    }
+                                })
+                                .catch(function(error) {
                                     fileName = undefined;
-                                }
-                            })
-                            .catch(function(error) {
-                                fileName = undefined;
-                            });
+                                });
+                        } else {
+                            fileName = undefined;
+                        }
                     } else {
                         fileName = value;
                     }
@@ -108,7 +116,7 @@ angular.module('kissWebIdeServices', [])
                 }
             },
             
-            // Projects resource properties
+            // Project resource properties
             'projectName': {
                 enumerable: true,
                 get: function() { return projectName; },
@@ -121,23 +129,47 @@ angular.module('kissWebIdeServices', [])
                     
                     if(value) {
                         // check if it is a valid value
-                        rootResource.getProjects()
-                            .then(function(projectsResource) {
-                                if(projectsResource.projectNames.indexOf(value) > -1) {
-                                    projectName = value;
-                                } else {
+                        if(workspaceUri) {
+                            workspace.getResource(workspaceUri)
+                                .then(function(workspaceResource) {
+                                    if(workspaceResource.projectNames.indexOf(value) > -1) {
+                                        projectName = value;
+                                    } else {
+                                        projectName = undefined;
+                                    }
+                                })
+                                .catch(function(error) {
                                     projectName = undefined;
-                                }
-                            })
-                            .catch(function(error) {
-                                projectName = undefined;
-                            });
+                                });
+                        } else {
+                            projectName = undefined;
+                        }
                     } else {
                         projectName = value;
                     }
                     
                     $route.reload();
                 },
+            },
+            
+            // Workspace related properties
+            'workspaceUri': {
+                enumerable: true,
+                get: function() { return workspaceUri; },
+                set: function(value) {
+                    workspaceUri = value;
+                    workspaceName = undefined;
+                    if(workspaceUri) {
+                        workspace.getResource(workspaceUri)
+                            .then(function(workspaceResource) {
+                                workspaceName = workspaceResource.name;
+                            });
+                    }
+                },
+            },
+            'workspaceName': {
+                enumerable: true,
+                get: function() { return workspaceName; }
             },
             
             // Login / root resource

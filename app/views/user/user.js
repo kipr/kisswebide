@@ -5,6 +5,10 @@ angular.module('kissWebIdeControllers')
     function ($scope, $q, $location, $modal, files, target) {
         $scope.target = target;
         
+        if(target.workspaceUri) {
+        
+        }
+        
         var rootFolderResource = $q(function(resolve, reject) {
             target.rootResource.getRootFolder()
                 .then(function(filesResource) {
@@ -17,8 +21,6 @@ angular.module('kissWebIdeControllers')
         });
         
         $scope.openWorkspace = function(size) {
-            $scope.workspacePath = undefined;
-            
             var modalInstance = $modal.open({
                 templateUrl: 'dialogs/select_file.html',
                 controller: 'SelectFileDialogController',
@@ -28,10 +30,23 @@ angular.module('kissWebIdeControllers')
                 }
             });
             
-            modalInstance.result.then(function (workspaceUri) {
-                files.getResource(workspaceUri)
+            modalInstance.result.then(function (workspaceFileUri) {
+                $scope.workspacePath = undefined;
+                target.workspaceUri = undefined;
+                
+                files.getResource(workspaceFileUri)
                 .then(function(filesResource) {
-                    $scope.workspacePath = filesResource.path;
+                    target.rootResource.getWorkspaceProviders()
+                    .then(function(workspaceProvidersResource) {
+                        workspaceProvidersResource.getWorkspaceProvider('directoryBasedWorkspaces')
+                        .then(function(workspaceProviderResource) {
+                            workspaceProviderResource.openWorkspace(filesResource.path)
+                            .then(function(WorkspaceResource) {
+                                $scope.workspacePath = filesResource.path;
+                                target.workspaceUri = WorkspaceResource.uri;
+                            });
+                        });
+                    });
                 });
             });
         }

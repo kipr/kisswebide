@@ -1,27 +1,30 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('ProjectController', ['$scope', '$q', '$location', '$modal', 'target',
-    function ($scope, $q, $location, $modal, target) {
+.controller('ProjectController', ['$scope', '$q', '$location', '$modal', 'target', 'workspace',
+    function ($scope, $q, $location, $modal, target, workspace) {
         $scope.target = target;
         
         var projectFolderResource = $q(function(resolve, reject) {
-            target.rootResource.getProjects()
-                .then(function(projectsResource) {
-                    return projectsResource.getProject(target.projectName);
-                })
-                .then(function(projectResource) {
-                    $scope.projectLanguage = projectResource.language;
-                    return projectResource.getFiles();
-                })
-                .then(function(filesResource) {
-                    resolve(filesResource);
-                    $scope.fileNames = filesResource.fileNames;
-                })
-                .catch(function(error) {
-                    reject({});
-                    //alert('Could not open ' + target.projectName);
-                });
+            if(target.workspaceUri) {
+                workspace.getResource(target.workspaceUri)
+                    .then(function(workspaceResource) {
+                        return workspaceResource.getProject(target.projectName);
+                    })
+                    .then(function(projectResource) {
+                        $scope.projectLanguage = projectResource.language;
+                        return projectResource.getFiles();
+                    })
+                    .then(function(filesResource) {
+                        resolve(filesResource);
+                        $scope.fileNames = filesResource.fileNames;
+                    })
+                    .catch(function(error) {
+                        reject({});
+                    });
+            } else {
+                reject({});
+            }
         });
         
         $scope.createSourceFile = function(size) {

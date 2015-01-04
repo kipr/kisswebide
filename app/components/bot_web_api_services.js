@@ -250,11 +250,11 @@ angular.module('BotWebApiServices', [])
     }
 ])
 
-.factory('projects', ['$http', '$q', 'project',
+.factory('workspace', ['$http', '$q', 'project',
     function($http, $q, project) {
         
         // Projects Resource prototype
-        function ProjectsResource(jsonData) {
+        function WorkspaceResource(jsonData) {
             Resource.call(this, jsonData);
             var projectNames = [];
             
@@ -264,7 +264,8 @@ angular.module('BotWebApiServices', [])
                 }
             }
             
-            Object.defineProperties(this, { 
+            Object.defineProperties(this, {
+                'name' : { get: function() { return jsonData.name; }, enumerable: true },
                 'projectNames' : { get: function() { return projectNames; }, enumerable: true },
                 'getProject' : {
                     enumerable: true,
@@ -287,7 +288,7 @@ angular.module('BotWebApiServices', [])
                 return $q(function(resolve, reject) {
                     $http.get(url)
                     .success(function(data, status, headers, config) {
-                        resolve(new ProjectsResource(data));
+                        resolve(new WorkspaceResource(data));
                     })
                     .error(function(data, status, headers, config) {
                         reject({
@@ -301,23 +302,142 @@ angular.module('BotWebApiServices', [])
     }
 ])
 
-.factory('botWebApi', ['$q', 'projects', 'files',
-    function($q, projects, files) {
+.factory('workspaceProvider', ['$http', '$q', 'workspace',
+    function($http, $q, workspace) {
+        
+        // Workspace providers resource prototype
+        function WorkspaceProviderResource(jsonData) {
+            Resource.call(this, jsonData);
+            
+            Object.defineProperties(this, {
+                'openWorkspace' : {
+                    enumerable: true,
+                    value: function(path) {
+                        var request = { path: path};
+                        
+                        return $q(function(resolve, reject) {
+                            $http.post(jsonData.links.self.href, request)
+                            
+                            .success(function(data, status, headers, config) {
+                                if(headers('Location')) {
+                                    workspace.getResource(headers('Location'))
+                                    .then(function(WorkspaceResource) {
+                                        resolve(WorkspaceResource);
+                                    },
+                                    function(errorObj) {
+                                        reject(errorObj);
+                                    });
+                                } else {
+                                    reject({
+                                        status: status,
+                                        data: data,
+                                        headers: headers
+                                    });
+                                }
+                            })
+                            .error(function(data, status, headers, config) {
+                                reject({
+                                    status: status,
+                                    data: data
+                                });
+                            });
+                        });
+                    }
+                }
+            });
+        }
+        
+        // Create the service object
+        return {
+            getResource: function(url) {
+                return $q(function(resolve, reject) {
+                    $http.get(url)
+                    .success(function(data, status, headers, config) {
+                        resolve(new WorkspaceProviderResource(data));
+                    })
+                    .error(function(data, status, headers, config) {
+                        reject({
+                            status: status,
+                            data: data
+                        });
+                    });
+                });
+            }
+        };
+    }
+])
+
+.factory('workspaceProviders', ['$http', '$q', 'workspaceProvider',
+    function($http, $q, workspaceProvider) {
+        
+        // Workspace providers resource prototype
+        function WorkspaceProvidersResource(jsonData) {
+            Resource.call(this, jsonData);
+            var workspaceProviderNames = [];
+            
+            if(jsonData.links.workspace_provider) {
+                for(var i = 0; i < jsonData.links.workspace_provider.length; i++) {
+                    workspaceProviderNames[i] = jsonData.links.workspace_provider[i].name;
+                }
+            }
+            
+            Object.defineProperties(this, {
+                'workspaceProviderNames' : {
+                    enumerable: true,
+                    get: function() { return workspaceProviderNames; }
+                },
+                'getWorkspaceProvider' : {
+                    enumerable: true,
+                    value: function(name) {
+                        for(var i = 0; i < jsonData.links.workspace_provider.length; i++) {
+                            if(jsonData.links.workspace_provider[i].name === name) {
+                                return workspaceProvider.getResource(jsonData.links.workspace_provider[i].href);
+                            }
+                        }
+                        
+                        return $q(function(resolve, reject) { reject(); });
+                    }
+                }
+            });
+        }
+        
+        // Create the service object
+        return {
+            getResource: function(url) {
+                return $q(function(resolve, reject) {
+                    $http.get(url)
+                    .success(function(data, status, headers, config) {
+                        resolve(new WorkspaceProvidersResource(data));
+                    })
+                    .error(function(data, status, headers, config) {
+                        reject({
+                            status: status,
+                            data: data
+                        });
+                    });
+                });
+            }
+        };
+    }
+])
+
+.factory('botWebApi', ['$q', 'files', 'workspaceProviders',
+    function($q, files, workspaceProviders) {
         
         // Root Resource prototype
         function RootResource(jsonData) {
             Resource.call(this, jsonData);
             Object.defineProperties(this, {
-                'getProjects' : {
-                    enumerable: true,
-                    value: function() {
-                        return projects.getResource(jsonData.links.projects.href);
-                    }
-                },
                 'getRootFolder' : {
                     enumerable: true,
                     value: function() {
                         return files.getResource(jsonData.links.fs.href);
+                    }
+                },
+                'getWorkspaceProviders' : {
+                    enumerable: true,
+                    value: function() {
+                        return workspaceProviders.getResource(jsonData.links.workspaces.href);
                     }
                 }
             });

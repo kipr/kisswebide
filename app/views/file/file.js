@@ -1,46 +1,45 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('FileController', ['$rootScope', '$scope', '$location', 'target',
-    function ($rootScope, $scope, $location, target) {
+.controller('FileController', ['$rootScope', '$scope', '$location', 'target', 'workspace',
+    function ($rootScope, $scope, $location, target, workspace) {
         var fileResource = undefined;
         var projectResource = undefined;
         var editor = undefined;
         
-        target.rootResource.getProjects()
-            .then(function(projectsResource) {
-                return projectsResource.getProject(target.projectName);
-            })
-            .then(function(projectResource_) {
-                projectResource = projectResource_;
-                return projectResource.getFiles();
-            })
-            .then(function(filesResource) {
-                return filesResource.getFile(target.fileName);
-            })
-            .then(function(fileResource_) {
-                fileResource = fileResource_;
-                
-                var content = '';
-                if(fileResource.content) {
-                    content = Base64.decode(fileResource.content);
-                }
-                editor = ace.edit('file_content');
-                editor.setTheme('ace/theme/crimson_editor');
-                editor.getSession().setMode('ace/mode/c_cpp');
-                editor.setValue(content, -1);
-                editor.on('change', function(e) {
-                    $scope.documentChanged = true;
-                    $scope.$apply(function() {
+        if(target.workspaceUri) {
+            workspace.getResource(target.workspaceUri)
+                .then(function(workspaceResource) {
+                    return workspaceResource.getProject(target.projectName);
+                })
+                .then(function(projectResource_) {
+                    projectResource = projectResource_;
+                    return projectResource.getFiles();
+                })
+                .then(function(filesResource) {
+                    return filesResource.getFile(target.fileName);
+                })
+                .then(function(fileResource_) {
+                    fileResource = fileResource_;
+                    
+                    var content = '';
+                    if(fileResource.content) {
+                        content = Base64.decode(fileResource.content);
+                    }
+                    editor = ace.edit('file_content');
+                    editor.setTheme('ace/theme/crimson_editor');
+                    editor.getSession().setMode('ace/mode/c_cpp');
+                    editor.setValue(content, -1);
+                    editor.on('change', function(e) {
                         $scope.documentChanged = true;
+                        $scope.$apply(function() {
+                            $scope.documentChanged = true;
+                        });
                     });
+                    
+                    $scope.documentChanged = false;
                 });
-                
-                $scope.documentChanged = false;
-            })
-            .catch(function(error) {
-                //alert('Could not open ' + target.fileName);
-            });
+        }
         
         $scope.documentChanged = false;
         

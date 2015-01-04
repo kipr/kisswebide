@@ -90,16 +90,16 @@
                             </a>
                         </li>
                         
-                        <!-- Projects view -->
+                        <!-- Workspace view -->
                         <li data-ng-show="target.loggedIn" data-ng-class="{active: $location.path() == '/projects'}">
                             <a href="#/projects">
-                                <small><small>Projects:</small></small><br class="hidden-xs">
-                                Projects
+                                <small><small>Workspace:</small></small><br class="hidden-xs">
+                                {{target.workspaceName ? target.workspaceName : 'No workspace selected'}}
                             </a>
                         </li>
                         
                         <!-- Project view -->
-                        <li data-ng-show="target.loggedIn"
+                        <li data-ng-show="target.loggedIn && target.workspaceUri"
                             class="dropdown"
                             data-ng-class="{active: $location.path() == '/project'}">
                             <a href="#/project"
