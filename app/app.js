@@ -57,8 +57,6 @@ angular.module('kissWebIdeControllers', [])
         $scope.$location = $location;
         $scope.target = target;
         
-        $scope.fileSelectDialogId = 'HeaderController_fileSelectDialogId';
-        
         $scope.openSelectTarget = function(size) {
             var modalInstance = $modal.open({
                 templateUrl: 'dialogs/target_select.html',
