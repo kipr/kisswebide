@@ -69,3 +69,10 @@ Navigate to `C:\LightTPD` and launch (double click) on `LightTPD.exe`
 
 ## 3 Open the KISS Web IDE
 Open http://127.0.0.1/kisswebide in a browser
+
+## 4 Launch a compiled application
+As there is no simulatior available yet, you need to start the applications by hand:
+
+1. Open a Command Prompt and change to the project directory `cd <project>`
+2. If your application uses libkovan functions (**Note that just the camera and the depth display is working without the simulator**): Copy the dlls with `copy "C:\Program Files (x86)\KISS Platform 5.1.2\KISS"\*.dll .\`
+3. Launch the executable `<project>.exe`
