@@ -266,6 +266,7 @@ angular.module('BotWebApiServices', [])
             
             Object.defineProperties(this, {
                 'name' : { get: function() { return jsonData.name; }, enumerable: true },
+                'path' : { get: function() { return jsonData.path; }, enumerable: true },
                 'projectNames' : { get: function() { return projectNames; }, enumerable: true },
                 'getProject' : {
                     enumerable: true,

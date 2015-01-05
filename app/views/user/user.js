@@ -1,12 +1,17 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('UserController', ['$scope', '$q', '$location', '$modal', 'files', 'target',
-    function ($scope, $q, $location, $modal, files, target) {
+.controller('UserController', ['$scope', '$q', '$location', '$modal', 'files', 'target', 'workspace',
+    function ($scope, $q, $location, $modal, files, target, workspace) {
         $scope.target = target;
         
         if(target.workspaceUri) {
-        
+            $scope.workspacePath = undefined;
+            
+            workspace.getResource(target.workspaceUri)
+                .then(function(workspaceResource) {
+                    $scope.workspacePath = workspaceResource.path;
+                });
         }
         
         var rootFolderResource = $q(function(resolve, reject) {
@@ -42,7 +47,7 @@ angular.module('kissWebIdeControllers')
                         .then(function(workspaceProviderResource) {
                             workspaceProviderResource.openWorkspace(filesResource.path)
                             .then(function(WorkspaceResource) {
-                                $scope.workspacePath = filesResource.path;
+                                $scope.workspacePath = WorkspaceResource.path;
                                 target.workspaceUri = WorkspaceResource.uri;
                             });
                         });
