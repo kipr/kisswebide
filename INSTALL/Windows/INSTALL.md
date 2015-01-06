@@ -6,7 +6,7 @@ This guide describes how to install the Bot Web API Server on Microsoft Windows.
 
 ## 1 Manual Installation
 
-### 1.2 Install missing applications
+### 1.1 Install missing applications
 
 #### Install Lighttpd
 **Note:** You can skip this step if you already have installed Lighttpd. Lighttpd is installed when you install the Bot Web API.
@@ -61,7 +61,7 @@ Open a Command Prompt as administrator and type:
 ```
 C:\WINDOWS\system32>mklink C:\LightTPD\htdocs\index.html C:\Users\stefan\Documents\Projects\kisswebide\index.html
 C:\WINDOWS\system32>mklink /D C:\LightTPD\htdocs\kisswebide C:\Users\stefan\Documents\Projects\kisswebide\kisswebide
-C:\WINDOWS\system32>mklink /D C:\LightTPD\htdocs\ace-builds C:\Users\stefa_000\Documents\Projects\ace-builds
+C:\WINDOWS\system32>mklink /D C:\LightTPD\htdocs\libs\ace-builds C:\Users\stefa_000\Documents\Projects\ace-builds
 ```
 
 ## 2 Launch the LightTPD server
