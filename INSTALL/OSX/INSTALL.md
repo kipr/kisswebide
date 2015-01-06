@@ -66,8 +66,7 @@ sudo curl "http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.0.min.js
   ```
 cd /Users/stefan/Documents
 git clone https://github.com/ajaxorg/ace-builds.git
-sudo mkdir /Library/WebServer/Documents/libs/ace-build
-cd /Library/WebServer/Documents/libs/ace-build
+cd /Library/WebServer/Documents/libs
 sudo ln -s /Library/WebServer/Documents/libs/ace-build ace-build
 ```
 
