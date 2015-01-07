@@ -30,7 +30,7 @@ Open a Command Prompt as administrator and type:
 ```
 C:\WINDOWS\system32>mklink C:\LightTPD\htdocs\index.html C:\Users\stefan\Documents\Projects\kisswebide\index.html
 C:\WINDOWS\system32>mklink /D C:\LightTPD\htdocs\kisswebide C:\Users\stefan\Documents\Projects\kisswebide\kisswebide
-C:\WINDOWS\system32>mklink /D C:\LightTPD\htdocs\libs C:\Users\stefa_000\Documents\Projects\kisswebide\INSTALL\libs
+C:\WINDOWS\system32>mklink /D C:\LightTPD\htdocs\libs C:\Users\stefan\Documents\Projects\kisswebide\INSTALL\libs
 ```
 
 ## 2 Launch the LightTPD server
