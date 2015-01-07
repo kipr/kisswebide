@@ -28,8 +28,7 @@ Clone `https://github.com/kipr/kisswebide.git` with your git tool. The subsequen
 Open a Command Prompt as administrator and type:
 
 ```
-C:\WINDOWS\system32>mklink C:\LightTPD\htdocs\index.html C:\Users\stefan\Documents\Projects\kisswebide\index.html
-C:\WINDOWS\system32>mklink /D C:\LightTPD\htdocs\kisswebide C:\Users\stefan\Documents\Projects\kisswebide\kisswebide
+C:\WINDOWS\system32>mklink /D C:\LightTPD\htdocs\kisswebide C:\Users\stefan\Documents\Projects\kisswebide\app
 C:\WINDOWS\system32>mklink /D C:\LightTPD\htdocs\libs C:\Users\stefan\Documents\Projects\kisswebide\INSTALL\libs
 ```
 
