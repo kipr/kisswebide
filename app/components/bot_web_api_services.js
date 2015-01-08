@@ -305,7 +305,44 @@ angular.module('BotWebApiServices', [])
     }
 ])
 
-.factory('workspaceProvider', ['$http', '$q', 'workspace',
+.factory('kissPlatformWorkspaceProvider', ['$http', '$q', 'workspace',
+    function($http, $q, workspace) {
+        
+        // Workspace providers resource prototype
+        function WorkspaceProviderResource(jsonData) {
+            Resource.call(this, jsonData);
+            
+            Object.defineProperties(this, {
+                'getWorkspace' : {
+                    enumerable: true,
+                    value: function() {
+                        return workspace.getResource(jsonData.links.workspace.href);
+                    }
+                }
+            });
+        }
+        
+        // Create the service object
+        return {
+            getResource: function(url) {
+                return $q(function(resolve, reject) {
+                    $http.get(url)
+                    .success(function(data, status, headers, config) {
+                        resolve(new WorkspaceProviderResource(data));
+                    })
+                    .error(function(data, status, headers, config) {
+                        reject({
+                            status: status,
+                            data: data
+                        });
+                    });
+                });
+            }
+        };
+    }
+])
+
+.factory('directoryBasedWorkspaceProvider', ['$http', '$q', 'workspace',
     function($http, $q, workspace) {
         
         // Workspace providers resource prototype
@@ -370,8 +407,8 @@ angular.module('BotWebApiServices', [])
     }
 ])
 
-.factory('workspaceProviders', ['$http', '$q', 'workspaceProvider',
-    function($http, $q, workspaceProvider) {
+.factory('workspaceProviders', ['$http', '$q', 'directoryBasedWorkspaceProvider', 'kissPlatformWorkspaceProvider',
+    function($http, $q, directoryBasedWorkspaceProvider, kissPlatformWorkspaceProvider) {
         
         // Workspace providers resource prototype
         function WorkspaceProvidersResource(jsonData) {
@@ -392,12 +429,20 @@ angular.module('BotWebApiServices', [])
                 'getWorkspaceProvider' : {
                     enumerable: true,
                     value: function(name) {
-                        for(var i = 0; i < jsonData.links.workspace_provider.length; i++) {
-                            if(jsonData.links.workspace_provider[i].name === name) {
-                                return workspaceProvider.getResource(jsonData.links.workspace_provider[i].href);
+                        if(jsonData.links.workspace_provider) {
+                            for(var i = 0; i < jsonData.links.workspace_provider.length; i++) {
+                                if(name == jsonData.links.workspace_provider[i].name) {
+                                    if(name == 'directoryBasedWorkspaces') {
+                                        return directoryBasedWorkspaceProvider.getResource(jsonData.links.workspace_provider[i].href);
+                                    } else if(name == 'kissPlatformWorkspaces') {
+                                        return kissPlatformWorkspaceProvider.getResource(jsonData.links.workspace_provider[i].href);
+                                    } else {
+                                        return $q(function(resolve, reject) { reject(); });
+                                    }
+                                }
                             }
                         }
-                        
+                                
                         return $q(function(resolve, reject) { reject(); });
                     }
                 }

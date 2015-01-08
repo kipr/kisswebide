@@ -12,12 +12,12 @@ angular.module('kissWebIdeControllers')
                 .then(function(workspaceResource) {
                     $scope.workspacePath = workspaceResource.path;
                 });
-        } else if(target.name.indexOf('127.0.0.1') > -1) {
+        } else if(target.name.indexOf('127.0.0.1') == -1) {
             target.rootResource.getWorkspaceProviders()
             .then(function(workspaceProvidersResource) {
                 workspaceProvidersResource.getWorkspaceProvider('kissPlatformWorkspaces')
                 .then(function(workspaceProviderResource) {
-                    workspaceProviderResource.openWorkspace(filesResource.path)
+                    workspaceProviderResource.getWorkspace()
                     .then(function(WorkspaceResource) {
                         target.workspaceUri = WorkspaceResource.uri;
                     });
