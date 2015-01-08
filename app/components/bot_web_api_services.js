@@ -206,7 +206,11 @@ angular.module('BotWebApiServices', [])
                 'getFiles' : {
                     enumerable: true,
                     value: function() {
-                        return files.getResource(jsonData.links.files.href);
+                        if(jsonData.links.files) {
+                            return files.getResource(jsonData.links.files.href);
+                        } else {
+                            return $q(function(resolve, reject) { reject([]); });
+                        }
                     },
                 },
                 'compile' : {
