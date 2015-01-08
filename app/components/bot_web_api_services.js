@@ -41,6 +41,7 @@ angular.module('BotWebApiServices', [])
                 },
                 'name': { get: function() { return jsonData.name; }, enumerable: true },
                 'path': { get: function() { return jsonData.path; }, enumerable: true },
+                'directory_separator': { get: function() { return jsonData.directory_separator; }, enumerable: true },
                 'hasParent': { get: function() { return !(/api\/fs#/.test(jsonData.links.parent.href)); }, enumerable: true },
                 'parentUri': { get: function() { return jsonData.links.parent.href; }, enumerable: true }
             });
@@ -182,6 +183,7 @@ angular.module('BotWebApiServices', [])
                 },
                 'name': { get: function() { return jsonData.name; }, enumerable: true },
                 'path': { get: function() { return jsonData.path; }, enumerable: true },
+                'directory_separator': { get: function() { return jsonData.directory_separator; }, enumerable: true },
                 'hasParent': { get: function() { return /api\/fs/.test(jsonData.links.parent.href); }, enumerable: true },
                 'parentUri': { get: function() { return jsonData.links.parent.href; }, enumerable: true }
             });

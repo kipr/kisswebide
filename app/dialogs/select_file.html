@@ -32,7 +32,7 @@
                       <span data-ng-hide="selectedFile">folder:</span>
                       <span data-ng-show="selectedFile">file:</span>
                       </label>
-    <p id="path">{{currentDirectory.path}}<span data-ng-show="selectedFolder">\{{selectedFolder}}</span><span data-ng-show="selectedFile">\{{selectedFile}}</span></p>
+    <p id="path">{{currentDirectory.path == currentDirectory.directory_separator ? '' : currentDirectory.path}}<span data-ng-show="selectedFolder">{{currentDirectory.directory_separator}}{{selectedFolder}}</span><span data-ng-show="selectedFile">\{{selectedFile}}</span></p>
 </div>
 
 <div class="modal-footer">
