@@ -14,7 +14,7 @@
                     <div class="list-group-item"
                          data-ng-class="{'list-group-item-success' : workspacePath,
                                          'list-group-item-danger' : !workspacePath,
-                                         'disabled' : target.name.indexOf('192.168.123') > -1}">
+                                         'disabled' : target.name.indexOf('127.0.0.1') == -1}">
                         <div class="btn-group-xs pull-right">
                             <button type="button"
                                     class="btn btn-default"
@@ -26,8 +26,8 @@
                         <p>Remote workspace directory:<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;{{workspacePath}}</p>
                     </div>
-                    <div class="list-group-item"
-                         data-ng-class="{'disabled' : target.name.indexOf('192.168.123') == -1}">
+                    <div class="list-group-item list-group-item-success"
+                         data-ng-class="{'disabled' : target.name.indexOf('127.0.0.1') > -1}">
                         <big>KISS Platform workspace</big>
                     </div>
                 </div>
