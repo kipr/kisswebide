@@ -26,7 +26,23 @@ angular.module('BotWebApiServices', [])
                         
                         return $q(function(resolve, reject) {
                             $http.put(jsonData.links.self.href, request)
-                            
+                            .success(function(data, status, headers, config) {
+                                resolve();
+                            })
+                            .error(function(data, status, headers, config) {
+                                reject({
+                                    status: status,
+                                    data: data
+                                });
+                            });
+                        });
+                    }
+                },
+                'delete': {
+                    enumerable: true,
+                    value: function() {
+                        return $q(function(resolve, reject) {
+                            $http.delete(jsonData.links.self.href)
                             .success(function(data, status, headers, config) {
                                 resolve();
                             })
@@ -178,6 +194,69 @@ angular.module('BotWebApiServices', [])
                                     data: data
                                 });
                             });
+                        });
+                    }
+                },
+                'delete': {
+                    enumerable: true,
+                    value: function() {
+                        return $q(function(resolve, reject) {
+                            $http.delete(jsonData.links.self.href)
+                            .success(function(data, status, headers, config) {
+                                resolve();
+                            })
+                            .error(function(data, status, headers, config) {
+                                reject({
+                                    status: status,
+                                    data: data
+                                });
+                            });
+                        });
+                    }
+                },
+                'deleteChild': {
+                    enumerable: true,
+                    value: function(name) {
+                        return $q(function(resolve, reject) {
+                            if(jsonData.links.files) {
+                                for(var i = 0; i < jsonData.links.files.length; i++) {
+                                    if(jsonData.links.files[i].name == name) {
+                                        $http.delete(jsonData.links.files[i].href)
+                                        .success(function(data, status, headers, config) {
+                                            resolve();
+                                        })
+                                        .error(function(data, status, headers, config) {
+                                            reject({
+                                                status: status,
+                                                data: data
+                                            });
+                                        });
+                                        
+                                        return;
+                                    }
+                                }
+                            }
+                            
+                            if(jsonData.links.directories) {
+                                for(var i = 0; i < jsonData.links.directories.length; i++) {
+                                    if(jsonData.links.directories[i].name == name) {
+                                        $http.delete(jsonData.links.directories[i].href)
+                                        .success(function(data, status, headers, config) {
+                                            resolve();
+                                        })
+                                        .error(function(data, status, headers, config) {
+                                            reject({
+                                                status: status,
+                                                data: data
+                                            });
+                                        });
+                                        
+                                        return;
+                                    }
+                                }
+                            }
+                            
+                            reject({});
                         });
                     }
                 },
