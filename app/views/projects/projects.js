@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('ProjectsController', ['$scope', '$location', 'target', 'workspace',
-    function ($scope, $location, target, workspace) {
+.controller('ProjectsController', ['$scope', '$location', '$route', 'target', 'workspace',
+    function ($scope, $location, $route, target, workspace) {
         $scope.target = target;
         
         if(target.workspaceUri) {
@@ -35,6 +35,25 @@ angular.module('kissWebIdeControllers')
         }
         
         $scope.deleteItem = function(projectName) {
+            if(target.workspaceUri) {
+                workspace.getResource(target.workspaceUri)
+                    .then(function(workspaceResource) {
+                        console.log('abc');
+                        return workspaceResource.getProject(projectName);
+                    })
+                    .then(function(projectResource) {
+                        console.log('abc');
+                        return projectResource.projectLocation;
+                    })
+                    .then(function(projectLocationResource) {
+                        console.log('do delete');
+                        return projectLocationResource.delete();
+                    })
+                    .then(function() {
+                        console.log('done');
+                        $route.reload();
+                    });
+            }
         }
     }
 ]);
