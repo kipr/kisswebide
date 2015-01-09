@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('ProjectController', ['$scope', '$q', '$location', '$modal', 'target', 'workspace',
-    function ($scope, $q, $location, $modal, target, workspace) {
+.controller('ProjectController', ['$scope', '$q', '$location', '$route', '$modal', 'target', 'workspace',
+    function ($scope, $q, $location, $route, $modal, target, workspace) {
         $scope.target = target;
         
         var projectFolderResource = $q(function(resolve, reject) {
@@ -37,6 +37,10 @@ angular.module('kissWebIdeControllers')
                     extensions: function() { return ['.c']; }
                 }
             });
+
+            modalInstance.result.then(function() {
+                $route.reload();
+            });
         }
         
         $scope.createHeaderFile = function(size) {
@@ -49,6 +53,10 @@ angular.module('kissWebIdeControllers')
                     extensions: function() { return ['.h']; }
                 }
             });
+
+            modalInstance.result.then(function() {
+                $route.reload();
+            });
         }
         
         $scope.createUserDataFile = function(size) {
@@ -60,6 +68,10 @@ angular.module('kissWebIdeControllers')
                     folderResource: function() { return projectFolderResource; },
                     extensions: function() { return undefined; }
                 }
+            });
+
+            modalInstance.result.then(function() {
+                $route.reload();
             });
         }
         
@@ -79,6 +91,12 @@ angular.module('kissWebIdeControllers')
         }
         
         $scope.deleteItem = function(fileName) {
+            projectFolderResource.then(function(projectFolderResource_) {
+                projectFolderResource_.deleteChild(fileName)
+                .then(function() {
+                    $route.reload();
+                });
+            });
         }
     }
 ])
