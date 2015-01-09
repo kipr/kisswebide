@@ -115,9 +115,6 @@ angular.module('BotWebApiServices', [])
                             $http.post(jsonData.links.self.href, request)
                             
                             .success(function(data, status, headers, config) {
-                                console.log(data);
-                                console.log(status);
-                                console.log(headers('Location'));
                                 resolve();
                             })
                             .error(function(data, status, headers, config) {
