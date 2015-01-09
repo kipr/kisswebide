@@ -263,6 +263,12 @@ angular.module('BotWebApiServices', [])
             Object.defineProperties(this, { 
                 'type' : { get: function() { return jsonData.type; }, enumerable: true },
                 'language' : { get: function() { return jsonData.language; }, enumerable: true },
+                'projectLocation' : {
+                    enumerable: true,
+                    get: function() {
+                        return fs.getResource(jsonData.links.project_location.href);
+                    }
+                },
                 'getFiles' : {
                     enumerable: true,
                     value: function() {
