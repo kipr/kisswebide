@@ -107,7 +107,7 @@ angular.module('kissWebIdeControllers')
         var sourceFiles = [];
         for(var i=0; i < files.length; ++i) {
             var file = files[i];
-            if(/(.c)$/.test(file)) {
+            if(/(\.c)$/.test(file)) {
                 sourceFiles.push(file);
             }
         }
@@ -121,7 +121,7 @@ angular.module('kissWebIdeControllers')
         var headerFiles = [];
         for(var i=0; i < files.length; ++i) {
             var file = files[i];
-            if(/(.h)$/.test(file)) {
+            if(/(\.h)$/.test(file)) {
                 headerFiles.push(file);
             }
         }
@@ -135,7 +135,7 @@ angular.module('kissWebIdeControllers')
         var userDataFiles = [];
         for(var i=0; i < files.length; ++i) {
             var file = files[i];
-            if(/^(?!.*(.h|.c|.exe|.kissproj))/.test(file)) {
+            if(! /(\.h|\.c|\.exe|\.kissproj|\.ops)$/.test(file)) {
                 userDataFiles.push(file);
             }
         }
