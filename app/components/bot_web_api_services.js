@@ -113,9 +113,17 @@ angular.module('BotWebApiServices', [])
                         
                         return $q(function(resolve, reject) {
                             $http.post(jsonData.links.self.href, request)
-                            
                             .success(function(data, status, headers, config) {
-                                resolve();
+                                if(headers('Location')) {
+                                    resolve(headers('Location'));
+                                } else {
+                                    reject({
+                                        data: data,
+                                        status: status,
+                                        headers: headers,
+                                        config: config
+                                    });
+                                }
                             })
                             .error(function(data, status, headers, config) {
                                 reject({
@@ -348,7 +356,35 @@ angular.module('BotWebApiServices', [])
                         
                         return $q(function(resolve, reject) { reject(); });
                     }
-                }
+                },
+                'createProject' : {
+                    enumerable: true,
+                    value: function(name) {
+                        var request = { name: name };
+                        
+                        return $q(function(resolve, reject) {
+                            $http.post(jsonData.links.self.href, request)
+                            .success(function(data, status, headers, config) {
+                                if(headers('Location')) {
+                                    resolve(headers('Location'));
+                                } else {
+                                    reject({
+                                        data: data,
+                                        status: status,
+                                        headers: headers,
+                                        config: config
+                                    });
+                                }
+                            })
+                            .error(function(data, status, headers, config) {
+                                reject({
+                                    status: status,
+                                    data: data
+                                });
+                            });
+                        });
+                    }
+                },
             });
         }
         
@@ -424,7 +460,6 @@ angular.module('BotWebApiServices', [])
                         
                         return $q(function(resolve, reject) {
                             $http.post(jsonData.links.self.href, request)
-                            
                             .success(function(data, status, headers, config) {
                                 if(headers('Location')) {
                                     workspace.getResource(headers('Location'))

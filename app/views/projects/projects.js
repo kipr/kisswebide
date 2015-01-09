@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('ProjectsController', ['$scope', '$location', '$route', 'target', 'workspace',
-    function ($scope, $location, $route, target, workspace) {
+.controller('ProjectsController', ['$scope', '$location', '$route', '$modal', 'target', 'workspace',
+    function ($scope, $location, $route, $modal, target, workspace) {
         $scope.target = target;
         
         if(target.workspaceUri) {
@@ -24,7 +24,30 @@ angular.module('kissWebIdeControllers')
             }
         }
         
-        $scope.createItem = function() {
+        $scope.createItem = function(size) {
+            var modalInstance = $modal.open({
+                templateUrl: 'dialogs/string_prompt.html',
+                controller: 'StringPromptDialogController',
+                size: size,
+                resolve: {
+                    title: function() { return "Create a Project"; },
+                    message: function() { return "Project name: "; }
+                }
+            });
+
+            modalInstance.result.then(function(projectName) {
+                if(target.workspaceUri) {
+                    workspace.getResource(target.workspaceUri)
+                    .then(function(workspaceResource) {
+                        return workspaceResource.createProject(projectName);
+                    })
+                    .then(function() {
+                        $route.reload();
+                    });
+                    
+                    $route.reload();
+                }
+            });
         }
         
         $scope.openItem = function(projectName) {
