@@ -11,86 +11,18 @@ function Resource(jsonData) {
 
 angular.module('BotWebApiServices', [])
 
-.factory('file', ['$http', '$q',
+.factory('fs', ['$http', '$q',
     function($http, $q) {
-        
-        // Files Resource prototype
-        function FileResource(jsonData) {
-            Resource.call(this, jsonData);
-            Object.defineProperties(this, { 
-                'content' : {
-                    enumerable: true,
-                    get: function() { return jsonData.content; },
-                    set: function(value) {
-                        var request = { content: Base64.encode(value) }
-                        
-                        return $q(function(resolve, reject) {
-                            $http.put(jsonData.links.self.href, request)
-                            .success(function(data, status, headers, config) {
-                                resolve();
-                            })
-                            .error(function(data, status, headers, config) {
-                                reject({
-                                    status: status,
-                                    data: data
-                                });
-                            });
-                        });
-                    }
-                },
-                'delete': {
-                    enumerable: true,
-                    value: function() {
-                        return $q(function(resolve, reject) {
-                            $http.delete(jsonData.links.self.href)
-                            .success(function(data, status, headers, config) {
-                                resolve();
-                            })
-                            .error(function(data, status, headers, config) {
-                                reject({
-                                    status: status,
-                                    data: data
-                                });
-                            });
-                        });
-                    }
-                },
-                'name': { get: function() { return jsonData.name; }, enumerable: true },
-                'path': { get: function() { return jsonData.path; }, enumerable: true },
-                'directory_separator': { get: function() { return jsonData.directory_separator; }, enumerable: true },
-                'hasParent': { get: function() { return !(/api\/fs#/.test(jsonData.links.parent.href)); }, enumerable: true },
-                'parentUri': { get: function() { return jsonData.links.parent.href; }, enumerable: true }
-            });
-        }
-        
-        // Create the service object
-        return {
-            getResource: function(url) {
-                return $q(function(resolve, reject) {
-                    $http.get(url)
-                    .success(function(data, status, headers, config) {
-                        resolve(new FileResource(data));
-                    })
-                    .error(function(data, status, headers, config) {
-                        reject({
-                            status: status,
-                            data: data
-                        });
-                    });
-                });
-            }
-        };
-    }
-])
-
-.factory('files', ['$http', '$q', 'file',
-    function($http, $q, file) {
         var service = {
             getResource: function(url) {
                 return $q(function(resolve, reject) {
                     $http.get(url)
                     .success(function(data, status, headers, config) {
-                        resolve(new FilesResource(data));
+                        if(data.type && data.type == "file") {
+                            resolve(new FileResource(data));
+                        } else {
+                            resolve(new DirectoryResource(data));
+                        }
                     })
                     .error(function(data, status, headers, config) {
                         reject({
@@ -102,8 +34,8 @@ angular.module('BotWebApiServices', [])
             }
         };
         
-        // Files Resource prototype
-        function FilesResource(jsonData) {
+        // Directory Resource prototype
+        function DirectoryResource(jsonData) {
             Resource.call(this, jsonData);
             var fileNames = [];
             var directoryNames = [];
@@ -128,7 +60,7 @@ angular.module('BotWebApiServices', [])
                     value: function(name) {
                         for(var i = 0; i < jsonData.links.files.length; i++) {
                             if(jsonData.links.files[i].name === name) {
-                                return file.getResource(jsonData.links.files[i].href);
+                                return service.getResource(jsonData.links.files[i].href);
                             }
                         }
                         
@@ -268,13 +200,62 @@ angular.module('BotWebApiServices', [])
             });
         }
         
+        // Files Resource prototype
+        function FileResource(jsonData) {
+            Resource.call(this, jsonData);
+            Object.defineProperties(this, { 
+                'content' : {
+                    enumerable: true,
+                    get: function() { return jsonData.content; },
+                    set: function(value) {
+                        var request = { content: Base64.encode(value) }
+                        
+                        return $q(function(resolve, reject) {
+                            $http.put(jsonData.links.self.href, request)
+                            .success(function(data, status, headers, config) {
+                                resolve();
+                            })
+                            .error(function(data, status, headers, config) {
+                                reject({
+                                    status: status,
+                                    data: data
+                                });
+                            });
+                        });
+                    }
+                },
+                'delete': {
+                    enumerable: true,
+                    value: function() {
+                        return $q(function(resolve, reject) {
+                            $http.delete(jsonData.links.self.href)
+                            .success(function(data, status, headers, config) {
+                                resolve();
+                            })
+                            .error(function(data, status, headers, config) {
+                                reject({
+                                    status: status,
+                                    data: data
+                                });
+                            });
+                        });
+                    }
+                },
+                'name': { get: function() { return jsonData.name; }, enumerable: true },
+                'path': { get: function() { return jsonData.path; }, enumerable: true },
+                'directory_separator': { get: function() { return jsonData.directory_separator; }, enumerable: true },
+                'hasParent': { get: function() { return !(/api\/fs#/.test(jsonData.links.parent.href)); }, enumerable: true },
+                'parentUri': { get: function() { return jsonData.links.parent.href; }, enumerable: true }
+            });
+        }
+        
         // Create the service object
         return service;
     }
 ])
 
-.factory('project', ['$http', '$q', 'files',
-    function($http, $q, files) {
+.factory('project', ['$http', '$q', 'fs',
+    function($http, $q, fs) {
         
         // Project Resource prototype
         function ProjectResource(jsonData) {
@@ -286,7 +267,7 @@ angular.module('BotWebApiServices', [])
                     enumerable: true,
                     value: function() {
                         if(jsonData.links.files) {
-                            return files.getResource(jsonData.links.files.href);
+                            return fs.getResource(jsonData.links.files.href);
                         } else {
                             return $q(function(resolve, reject) { reject([]); });
                         }
@@ -552,8 +533,8 @@ angular.module('BotWebApiServices', [])
     }
 ])
 
-.factory('botWebApi', ['$q', 'files', 'workspaceProviders',
-    function($q, files, workspaceProviders) {
+.factory('botWebApi', ['$q', 'fs', 'workspaceProviders',
+    function($q, fs, workspaceProviders) {
         
         // Root Resource prototype
         function RootResource(jsonData) {
@@ -562,7 +543,7 @@ angular.module('BotWebApiServices', [])
                 'getRootFolder' : {
                     enumerable: true,
                     value: function() {
-                        return files.getResource(jsonData.links.fs.href);
+                        return fs.getResource(jsonData.links.fs.href);
                     }
                 },
                 'getWorkspaceProviders' : {

@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('UserController', ['$scope', '$q', '$location', '$modal', 'files', 'target', 'workspace',
-    function ($scope, $q, $location, $modal, files, target, workspace) {
+.controller('UserController', ['$scope', '$q', '$location', '$modal', 'fs', 'target', 'workspace',
+    function ($scope, $q, $location, $modal, fs, target, workspace) {
         $scope.target = target;
         
         if(target.workspaceUri) {
@@ -50,7 +50,7 @@ angular.module('kissWebIdeControllers')
                 $scope.workspacePath = undefined;
                 target.workspaceUri = undefined;
                 
-                files.getResource(workspaceFileUri)
+                fs.getResource(workspaceFileUri)
                 .then(function(filesResource) {
                     target.rootResource.getWorkspaceProviders()
                     .then(function(workspaceProvidersResource) {
