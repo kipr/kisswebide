@@ -35,6 +35,10 @@ nav .title {
     padding-bottom: 5px;
 }
 
+#content_container .page-header, #content_container .page-header h1, #content_container .page-header h2 {
+    margin-top: 0px;
+}
+
 /* Content
  *********/
 
