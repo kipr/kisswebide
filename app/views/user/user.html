@@ -1,7 +1,20 @@
 <div class="container">
     <div class="row">
         <div class="page-header">
-            <h2>{{target.username}}</h2>
+            <h2>
+                <strong>User:</strong> {{target.username}}
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default disabled"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Reload"
+                            data-ng-click="refresh()">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </button>
+                    &nbsp;
+                </span>
+            </h2>
         </div>
     </div>
     <div class="row">
