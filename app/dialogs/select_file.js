@@ -1,14 +1,14 @@
 "use strict";
 
 angular.module('kissWebIdeControllers')
-.controller('SelectFileDialogController', ['$scope', '$modalInstance', 'files', 'folderResource',
-    function ($scope, $modalInstance, files, folderResource) {
+.controller('SelectFileDialogController', ['$scope', '$modalInstance', 'fs', 'folderResource',
+    function ($scope, $modalInstance, fs, folderResource) {
         $scope.currentDirectory = folderResource;
         $scope.selectedFile = undefined;
         $scope.selectedFolder = undefined;
         
         $scope.showParent = function() {
-            files.getResource($scope.currentDirectory.parentUri)
+            fs.getResource($scope.currentDirectory.parentUri)
             .then(function(filesResource) {
                 $scope.currentDirectory = filesResource;
                 $scope.selectedFile = undefined;
