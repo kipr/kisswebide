@@ -34,7 +34,6 @@
         
         <!-- dialogs -->
         <script src="dialogs/target_select.js"></script>
-        <script src="dialogs/list_select.js"></script>
         <script src="dialogs/create_file.js"></script>
         <script src="dialogs/select_file.js"></script>
         <script src="dialogs/string_prompt.js"></script>
@@ -98,46 +97,27 @@
                         
                         <!-- Workspace view -->
                         <li data-ng-show="target.loggedIn" data-ng-class="{active: $location.path() == '/projects'}">
-                            <a href="#/projects">
+                            <a href="#/projects" role="button">
                                 <small><small>Workspace:</small></small><br class="hidden-xs">
                                 {{target.workspaceName ? target.workspaceName : 'No workspace selected'}}
                             </a>
                         </li>
                         
                         <!-- Project view -->
-                        <li data-ng-show="target.loggedIn && target.workspaceUri && $location.path() == '/project'"
-                            class="dropdown active">
-                            <a class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                <small><small>Project:</small></small><br class="hidden-xs">
-                                {{target.projectName ? target.projectName : 'No project selected'}} <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a data-ng-click="openSelectProject()">
-                                    {{target.projectName ?  'Change project' : 'Open project'}}
-                                </a></li>
-                            </ul>
-                        </li>
-                        <li data-ng-show="target.loggedIn && target.workspaceUri && $location.path() != '/project'">
+                        <li data-ng-show="target.loggedIn && target.workspaceUri"
+                            data-ng-class="{active: $location.path() == '/project'}">
                             <a href="#/project" role="button">
                                 <small><small>Project:</small></small><br class="hidden-xs">
-                                {{target.projectName ? target.projectName : 'No project selected'}} <span class="caret"></span>
+                                {{target.projectName ? target.projectName : 'No project selected'}}
                             </a>
                         </li>
                         
                         <!-- File view -->
-                        <li data-ng-show="target.projectName && $location.path() == '/file'" class="dropdown active">
-                            <a class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                <small><small>File:</small></small><br class="hidden-xs">
-                                {{target.fileName ? target.fileName : 'No file selected'}} <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a data-ng-click="openSelectFile()">Open file</a></li>
-                            </ul>
-                        </li>
-                        <li data-ng-show="target.projectName && $location.path() != '/file'">
+                        <li data-ng-show="target.projectName"
+                            data-ng-class="{active: $location.path() == '/file'}">
                             <a href="#/file" role="button">
                                 <small><small>File:</small></small><br class="hidden-xs">
-                                {{target.fileName ? target.fileName : 'No file selected'}} <span class="caret"></span>
+                                {{target.fileName ? target.fileName : 'No file selected'}}
                             </a>
                         </li>
                     </ul>
