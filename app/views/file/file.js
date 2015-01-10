@@ -8,6 +8,7 @@ angular.module('kissWebIdeControllers')
         var fileResource = undefined;
         var projectResource = undefined;
         var editor = undefined;
+        var fontSize = 14;
         
         if(target.workspaceUri) {
             workspace.getResource(target.workspaceUri)
@@ -122,6 +123,22 @@ angular.module('kissWebIdeControllers')
                 onRouteChangeOff();
             }
         });
+        
+        $scope.undo = function() {
+            editor.undo();
+        }
+        
+        $scope.redo = function() {
+            editor.redo();
+        }
+        
+        $scope.zoomIn = function() {
+            editor.setFontSize(++fontSize);
+        }
+        
+        $scope.zoomOut = function() {
+            editor.setFontSize(--fontSize);
+        }
         
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
