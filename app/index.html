@@ -98,7 +98,8 @@
                         </li>
                         
                         <!-- Workspace view -->
-                        <li data-ng-show="target.loggedIn" data-ng-class="{active: $location.path() == '/projects'}">
+                        <li data-ng-show="target.loggedIn && target.workspaceUri"
+                            data-ng-class="{active: $location.path() == '/projects'}">
                             <a href="#/projects" role="button">
                                 <small><small>Workspace:</small></small><br class="hidden-xs">
                                 {{target.workspaceName ? target.workspaceName : 'No workspace selected'}}
@@ -106,7 +107,7 @@
                         </li>
                         
                         <!-- Project view -->
-                        <li data-ng-show="target.loggedIn && target.workspaceUri"
+                        <li data-ng-show="target.loggedIn && target.projectName"
                             data-ng-class="{active: $location.path() == '/project'}">
                             <a href="#/project" role="button">
                                 <small><small>Project:</small></small><br class="hidden-xs">
@@ -115,7 +116,7 @@
                         </li>
                         
                         <!-- File view -->
-                        <li data-ng-show="target.projectName"
+                        <li data-ng-show="target.loggedIn && target.fileName"
                             data-ng-class="{active: $location.path() == '/file'}">
                             <a href="#/file" role="button">
                                 <small><small>File:</small></small><br class="hidden-xs">
