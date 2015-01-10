@@ -1,7 +1,31 @@
 <div class="container">
     <div class="row">
         <div class="page-header">
-            <h2>Projects</h2>
+            <h2>
+                <strong>Workspace:</strong> {{target.workspaceName}}
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default disabled"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Help"
+                            data-ng-click="help()">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                    &nbsp;
+                </span>
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default disabled"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Reload"
+                            data-ng-click="refresh()">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </button>
+                    &nbsp;
+                </span>
+            </h2>
         </div>
     </div>
     <div class="row">
@@ -11,6 +35,9 @@
                     <div class="btn-group-xs pull-right">
                         <button type="button"
                                 class="btn btn-default"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Create Project"
                                 data-ng-click="createItem()">
                             <span class="glyphicon glyphicon-file"></span>
                         </button>
@@ -26,11 +53,9 @@
                         <span class="btn-group-xs pull-right">
                             <button type="button"
                                     class="btn btn-default"
-                                    data-ng-click="openItem(projectName)">
-                                <span class="glyphicon glyphicon-folder-open"></span>
-                            </button>
-                            <button type="button"
-                                    class="btn btn-default"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="Delete Project"
                                     data-ng-click="deleteItem(projectName)">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>

@@ -50,13 +50,6 @@ angular.module('kissWebIdeControllers')
             });
         }
         
-        $scope.openItem = function(projectName) {
-            if(projectName != $scope.target.projectName) {
-                $scope.selectItem(projectName);
-            }
-            $location.path('/project/');
-        }
-        
         $scope.deleteItem = function(projectName) {
             if(target.workspaceUri) {
                 workspace.getResource(target.workspaceUri)
