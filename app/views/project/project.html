@@ -1,8 +1,31 @@
 <div class="container">
     <div class="row">
         <div class="page-header">
-            <h2>{{target.projectName}}
+            <h2>
+                <strong>Project:</strong> {{target.projectName}}
                 <small data-ng-hide="!projectLanguage">[ {{projectLanguage}} ]</small>
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default disabled"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Help"
+                            data-ng-click="help()">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                    &nbsp;
+                </span>
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default disabled"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Reload"
+                            data-ng-click="refresh()">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </button>
+                    &nbsp;
+                </span>
             </h2>
         </div>
     </div>
@@ -16,6 +39,9 @@
                     <div class="btn-group-xs pull-right">
                         <button type="button"
                                 class="btn btn-default"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Create File"
                                 data-ng-click="createSourceFile()">
                             <span class="glyphicon glyphicon-file"></span>
                         </button>
@@ -32,11 +58,9 @@
                         <span class="btn-group-xs pull-right">
                             <button type="button"
                                     class="btn btn-default"
-                                    data-ng-click="openItem(fileName)">
-                                <span class="glyphicon glyphicon-folder-open"></span>
-                            </button>
-                            <button type="button"
-                                    class="btn btn-default"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="Delete File"
                                     data-ng-click="deleteItem(fileName)">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
@@ -53,6 +77,9 @@
                     <div class="btn-group-xs pull-right">
                         <button type="button"
                                 class="btn btn-default"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Create File"
                                 data-ng-click="createHeaderFile()">
                             <span class="glyphicon glyphicon-file"></span>
                         </button>
@@ -69,11 +96,9 @@
                         <span class="btn-group-xs pull-right">
                             <button type="button"
                                     class="btn btn-default"
-                                    data-ng-click="openItem(fileName)">
-                                <span class="glyphicon glyphicon-folder-open"></span>
-                            </button>
-                            <button type="button"
-                                    class="btn btn-default"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="Delete File"
                                     data-ng-click="deleteItem(fileName)">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
@@ -93,6 +118,9 @@
                     <div class="btn-group-xs pull-right">
                         <button type="button"
                                 class="btn btn-default"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Create File"
                                 data-ng-click="createUserDataFile()">
                             <span class="glyphicon glyphicon-file"></span>
                         </button>
@@ -109,11 +137,9 @@
                         <span class="btn-group-xs pull-right">
                             <button type="button"
                                     class="btn btn-default"
-                                    data-ng-click="openItem(fileName)">
-                                <span class="glyphicon glyphicon-folder-open"></span>
-                            </button>
-                            <button type="button"
-                                    class="btn btn-default"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="Delete File"
                                     data-ng-click="deleteItem(fileName)">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>

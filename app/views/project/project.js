@@ -83,13 +83,6 @@ angular.module('kissWebIdeControllers')
             }
         }
         
-        $scope.openItem = function(fileName) {
-            if(fileName != $scope.target.fileName) {
-                $scope.selectItem(fileName);
-            }
-            $location.path('/file');
-        }
-        
         $scope.deleteItem = function(fileName) {
             projectFolderResource.then(function(projectFolderResource_) {
                 projectFolderResource_.deleteChild(fileName)
@@ -98,6 +91,10 @@ angular.module('kissWebIdeControllers')
                 });
             });
         }
+        
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
     }
 ])
 
