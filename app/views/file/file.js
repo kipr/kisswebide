@@ -140,6 +140,14 @@ angular.module('kissWebIdeControllers')
             editor.setFontSize(--fontSize);
         }
         
+        $scope.find = function() {
+            editor.execCommand("find");
+        }
+        
+        $scope.replace = function() {
+            editor.execCommand("replace");
+        }
+        
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         });
