@@ -509,6 +509,40 @@ angular.module('BotWebApiServices', [])
     }
 ])
 
+.factory('targetInformation', ['$http', '$q',
+    function($http, $q) {
+        
+        // Target information resource prototype
+        function TargetInformationResource(jsonData) {
+            Resource.call(this, jsonData);
+            
+            Object.defineProperties(this, {
+                'name' : { get: function() { return jsonData.name; }, enumerable: true },
+                'os' : { get: function() { return jsonData.os; }, enumerable: true },
+                'platform' : { get: function() { return jsonData.platform; }, enumerable: true },
+            });
+        }
+        
+        // Create the service object
+        return {
+            getResource: function(url) {
+                return $q(function(resolve, reject) {
+                    $http.get(url)
+                    .success(function(data, status, headers, config) {
+                        resolve(new TargetInformationResource(data));
+                    })
+                    .error(function(data, status, headers, config) {
+                        reject({
+                            status: status,
+                            data: data
+                        });
+                    });
+                });
+            }
+        };
+    }
+])
+
 .factory('workspaceProviders', ['$http', '$q', 'directoryBasedWorkspaceProvider', 'kissPlatformWorkspaceProvider',
     function($http, $q, directoryBasedWorkspaceProvider, kissPlatformWorkspaceProvider) {
         
@@ -571,13 +605,19 @@ angular.module('BotWebApiServices', [])
     }
 ])
 
-.factory('botWebApi', ['$q', 'fs', 'workspaceProviders',
-    function($q, fs, workspaceProviders) {
+.factory('botWebApi', ['$q', 'fs', 'workspaceProviders', 'targetInformation',
+    function($q, fs, workspaceProviders, targetInformation) {
         
         // Root Resource prototype
         function RootResource(jsonData) {
             Resource.call(this, jsonData);
             Object.defineProperties(this, {
+                'getTargetInformation' : {
+                    enumerable: true,
+                    value: function() {
+                        return targetInformation.getResource(jsonData.links.target.href);
+                    }
+                },
                 'getRootFolder' : {
                     enumerable: true,
                     value: function() {

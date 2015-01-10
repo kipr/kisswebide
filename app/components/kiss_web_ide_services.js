@@ -21,6 +21,8 @@ angular.module('kissWebIdeServices', [])
         var loggingIn = false;
         var url = undefined;
         var name = undefined;
+        var os = undefined;
+        var platform = undefined;
         var username = undefined;
         var password = undefined;
         
@@ -32,6 +34,9 @@ angular.module('kissWebIdeServices', [])
             loggedIn = false;
             loggingIn = false;
             url = undefined;
+            name = undefined;
+            os = undefined;
+            platform = undefined;
             password = undefined;
         }
         
@@ -49,15 +54,15 @@ angular.module('kissWebIdeServices', [])
                 username = searchObj.user;
             }
             
-            if(!('target' in searchObj) && name) {
+            if(!('target' in searchObj) && url) {
                 // restore the query string
-                $location.search('target', name);
-            } else if(searchObj.target !== name) {
+                $location.search('target', url);
+            } else if(searchObj.target !== url) {
                 // target changed by somebody external --> log out but update the target
                 if(loggedIn) {
                     logOut();
                 }
-                name = searchObj.target;
+                url = searchObj.target;
             }
         });
         
@@ -178,6 +183,8 @@ angular.module('kissWebIdeServices', [])
             'loggingIn': { get: function() { return loggingIn; }, enumerable: true },
             'url': { get: function() { return url; }, enumerable: true },
             'name': { get: function() { return name; }, enumerable: true },
+            'os': { get: function() { return os; }, enumerable: true },
+            'platform': { get: function() { return platform; }, enumerable: true },
             'username': {
                 enumerable: true,
                 get: function() { return username; },
@@ -201,8 +208,13 @@ angular.module('kissWebIdeServices', [])
                                 
                                 $location.search('user', username);
                                 
-                                name = url; // TODO
                                 $location.search('target', name);
+                                
+                                rootResource.getTargetInformation().then(function(targetInformationResource) {
+                                    name = targetInformationResource.name;
+                                    os = targetInformationResource.os;
+                                    platform = targetInformationResource.platform;
+                                });
                                 
                                 resolve({});
                             },

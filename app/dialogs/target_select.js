@@ -12,7 +12,7 @@ angular.module('kissWebIdeControllers')
         $scope.targetLocation = 'target_is_server';
         
         if(target.name) {
-            var matches = target.name.match(/^http:\/\/(.*)\/api/);
+            var matches = target.url.match(/^http:\/\/(.*)\/api/);
             if(matches[1]) {
                 if(matches[1] == window.location.hostname) {
                     $scope.targetLocation = 'target_is_server';
