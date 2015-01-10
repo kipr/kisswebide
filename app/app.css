@@ -39,6 +39,16 @@ nav .title {
     margin-top: 0px;
 }
 
+/* http://bootsnipp.com/snippets/featured/glyphicon-animate-rotation-and-flip */
+.gly-flip-horizontal {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
+  -webkit-transform: scale(-1, 1);
+  -moz-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+
 /* Content
  *********/
 

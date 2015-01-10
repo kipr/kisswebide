@@ -1,19 +1,120 @@
-<div class="container-fluid">
-    <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group" role="group">
-          <button type="button"
-                  class="btn"
-                  data-ng-class="{'btn-default' : !documentChanged, 'btn-danger' : documentChanged}"
-                  data-ng-disabled="!documentChanged";
-                  data-ng-click="save()">Save</button>
-        </div>
-        
-        <div class="btn-group" role="group">
-          <button type="button"
-                  class="btn btn-default"
-                  data-ng-click="compile()">
-            Compile
-        </button>
+<div class="container">
+    <div class="row">
+        <div class="page-header">
+            <h2>
+                <strong>File:</strong> {{target.fileName}}
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default disabled"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Help"
+                            data-ng-click="help()">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                    &nbsp;
+                </span>
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default disabled"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Reload"
+                            data-ng-click="refresh()">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </button>
+                    &nbsp;
+                </span>
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Compile Project"
+                            data-ng-click="compile()">
+                        <span class="fa fa-cubes"></span>
+                    </button>
+                    &nbsp;
+                </span>
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default disabled";
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Zoom In"
+                            data-ng-click="zoomIn()">
+                        <span class="fa fa-search-plus"></span>
+                    </button>
+                    <button type="button"
+                            class="btn btn-default disabled";
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Zoom Out"
+                            data-ng-click="zoomOut()">
+                        <span class="fa fa-search-minus"></span>
+                    </button>
+                    &nbsp;
+                </span>
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default disabled";
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Undo"
+                            data-ng-click="undo()">
+                        <span class="glyphicon glyphicon-share-alt"></span>
+                    </button>
+                    <button type="button"
+                            class="btn btn-default disabled";
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Redo"
+                            data-ng-click="redo()">
+                        <span class="glyphicon glyphicon-share-alt gly-flip-horizontal"></span>
+                    </button>
+                    &nbsp;
+                </span>
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn btn-default disabled";
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Cut"
+                            data-ng-click="cut()">
+                        <span class="fa fa-scissors"></span>
+                    </button>
+                    <button type="button"
+                            class="btn btn-default disabled";
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Copy"
+                            data-ng-click="copy()">
+                        <span class="fa fa-copy"></span>
+                    </button>
+                    <button type="button"
+                            class="btn btn-default disabled";
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Paste"
+                            data-ng-click="paste()">
+                        <span class="fa fa-clipboard"></span>
+                    </button>
+                    &nbsp;
+                </span>
+                <span class="btn-group navbar-right">
+                    <button type="button"
+                            class="btn"
+                            data-ng-class="{'btn-default' : !documentChanged, 'btn-danger' : documentChanged}"
+                            data-ng-disabled="!documentChanged";
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Save File"
+                            data-ng-click="save()">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                    </button>
+                    &nbsp;
+                </span>
+            </h2>
         </div>
     </div>
 

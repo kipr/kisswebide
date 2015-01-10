@@ -3,6 +3,8 @@
 angular.module('kissWebIdeControllers')
 .controller('FileController', ['$rootScope', '$scope', '$location', 'target', 'workspace',
     function ($rootScope, $scope, $location, target, workspace) {
+        $scope.target = target;
+        
         var fileResource = undefined;
         var projectResource = undefined;
         var editor = undefined;
@@ -119,6 +121,10 @@ angular.module('kissWebIdeControllers')
             } else {
                 onRouteChangeOff();
             }
+        });
+        
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
         });
     }
 ]);
