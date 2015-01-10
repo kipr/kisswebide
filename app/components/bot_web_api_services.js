@@ -643,6 +643,9 @@ angular.module('BotWebApiServices', [])
                         url: url,
                         username: username,
                         password: password,
+                        xhrFields: {
+                            withCredentials: true
+                        },
                         success: function(data, xhr, status) {
                             resolve(new RootResource(data));
                         },
