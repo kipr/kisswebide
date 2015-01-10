@@ -71,5 +71,9 @@ angular.module('kissWebIdeControllers')
                     });
             }
         }
+        
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
     }
 ]);
